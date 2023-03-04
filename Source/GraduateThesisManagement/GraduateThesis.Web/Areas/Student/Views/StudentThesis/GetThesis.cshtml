@@ -1,0 +1,424 @@
+﻿@model ThesisOutput
+@{
+    SupvResultOutput supvResult = (ViewData["SupvResult"] as SupvResultOutput)!;
+    CtrArgResultOutput ctrArgResult = (ViewData["CtrArgResult"] as CtrArgResultOutput)!;
+    List<StudentGroupDtOutput> studentGroupDts = (ViewData["StudentGroupDts"] as List<StudentGroupDtOutput>)!;
+}
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewData["PageName"]: "@Model.Name"</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label asp-for="Id" class="form-label"></label>
+                                <input asp-for="Id" class="form-control" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Name" class="form-label"></label>
+                                <input asp-for="Name" class="form-control" placeholder="Nhập tên đề tài" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description" class="form-label"></label>
+                                <textarea asp-for="Description" class="form-control" id="thesisDescription" placeholder="Mô tả" disabled></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                    <label asp-for="MaxStudentNumber" class="form-label"></label>
+                                    <input asp-for="MaxStudentNumber" class="form-control" placeholder="Nhập số sinh viên tối đa" disabled />
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                    <label asp-for="Credits" class="form-label"></label>
+                                    <input asp-for="Credits" class="form-control" placeholder="Nhập số tín chỉ" disabled />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                    <label asp-for="Topic.Name" class="form-label"></label>
+                                    <input asp-for="Topic.Name" class="form-control" placeholder="Nhập vào tên chủ đề khóa luận" disabled />
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                    <label asp-for="Specialization.Name" class="form-label"></label>
+                                    <input asp-for="Specialization.Name" class="form-control" placeholder="Nhập vào tên chuyên ngành" disabled />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                    <label asp-for="TrainingLevel.Name" class="form-label"></label>
+                                    <input asp-for="TrainingLevel.Name" class="form-control" placeholder="Nhập vào bậc đào tạo" disabled />
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                    <label asp-for="TrainingForm.Name" class="form-label"></label>
+                                    <input asp-for="TrainingForm.Name" class="form-control" placeholder="Nhập vào hình thức đào tạo" disabled />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                    <label asp-for="DateFrom" class="form-label"></label>
+                                    <input asp-for="DateFrom" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                    <label asp-for="DateTo" class="form-label"></label>
+                                    <input asp-for="DateTo" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Lecturer.FullName" class="form-label">Giảng viên ra đề</label>
+                                <input value="@Model.Lecturer.Id - @Model.Lecturer.FullName" class="form-control" placeholder="Nhập tên giảng viên" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ThesisSupervisor.FullName" class="form-label">Giảng viên hướng dẫn</label>
+                                <input value="@Model.ThesisSupervisor?.Id - @Model.ThesisSupervisor?.FullName" class="form-control" placeholder="Nhập tên giảng viên" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CriticalLecturer.FullName" class="form-label">Giảng viên phản biện</label>
+                                <input value="@Model.CriticalLecturer?.Id - @Model.CriticalLecturer?.FullName" class="form-control" placeholder="Nhập tên giảng viên" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ThesisStatus.Name" class="form-label"></label>
+                                <input asp-for="ThesisStatus.Name" class="form-control bg-info" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="File" class="form-label"></label> |
+                                <a href="~/@Model.File">Xem tập tin</a>
+                                <input asp-for="File" class="form-control" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CreatedAt" class="form-label"></label>
+                                <input asp-for="CreatedAt" class="form-control" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UpdatedAt" class="form-label"></label>
+                                <input asp-for="UpdatedAt" class="form-control" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (studentGroupDts != null)
+{
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Danh sách thành viên nhóm</h4>
+            </div>
+            <div class="card-body">
+                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                    <div class="dataTable-container">
+                        <table class="table table-striped dataTable-table" id="table1">
+                            <thead>
+                                <tr>
+                                    <th data-sortable="" style="width: 10%;">
+                                        <a href="#" class="dataTable-sorter">STT</a>
+                                    </th>
+                                    <th data-sortable="" style="width: 20%;">
+                                        <a href="#" class="dataTable-sorter">Mã</a>
+                                    </th>
+                                    <th data-sortable="" style="width: 25%;">
+                                        <a href="#" class="dataTable-sorter">Tên & Email</a>
+                                    </th>
+                                    <th data-sortable="" style="width: 25%;">
+                                        <a href="#" class="dataTable-sorter">Điểm</a>
+                                    </th>
+                                    <th data-sortable="" style="width: 20%;">
+                                        <a href="#" class="dataTable-sorter">Trạng thái</a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                }
+                                @foreach (StudentGroupDtOutput studentGroupDt in studentGroupDts)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@studentGroupDt.StudentId</td>
+                                        <td>
+                                            @studentGroupDt.FullName
+                                            <span class="badge bg-light-primary">@studentGroupDt.Email</span>
+                                        </td>
+                                        <td>
+                                            <p class="m-0">Điểm HD: @studentGroupDt.SupvPoint</p>
+                                            <p class="m-0">Điểm PB: @studentGroupDt.CtrArgPoint</p>
+                                            <p class="m-0">Điểm HĐ: @studentGroupDt.CmtePoint</p>
+                                        </td>
+                                        <td>@studentGroupDt.StatusName</td>
+                                    </tr>
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+}
+
+@if (supvResult != null)
+{
+    <section id="basic-horizontal-layouts">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Đánh giá của GVHD</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Đánh giá về nội dung</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="contents" placeholder="Đánh giá về nội dung">@supvResult.Contents</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Đánh giá về thái độ</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="attitudes" placeholder="Đánh giá về thái độ">@supvResult.Attitudes</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Đánh giá về kết quả thực hiện</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="results" placeholder="Đánh giá về kết quả">@supvResult.Results</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Kết luận</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="conclusions" placeholder="Kết luận">@supvResult.Conclusions</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Điểm</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <input class="form-control" value="@supvResult.Point" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@if (ctrArgResult != null)
+{
+    <section id="basic-horizontal-layouts">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Đánh giá của GVPB</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Đánh giá về nội dung</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="c_contents" placeholder="Đánh giá về nội dung">@ctrArgResult.Contents</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Đánh giá về phương pháp nghiên cứu</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="researchMethods" placeholder="Đánh giá về pp nghiên cứu">@ctrArgResult.ResearchMethods</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Đánh giá về mặt khoa học</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="scientificResults" placeholder="Đánh giá về KQKH">@ctrArgResult.ScientificResults</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Đánh giá về mặt thực tiễn</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="practicalResults" placeholder="Đánh giá về mặt thực tiễn">@ctrArgResult.PracticalResults</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Những thiếu sót</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="defects" placeholder="Những thiếu sót">@ctrArgResult.Defects</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Câu trả lời</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="answers" placeholder="Câu trả lời">@ctrArgResult.Answers</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Kết luận</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <textarea class="form-control" id="c_conclusions" placeholder="Kết luận">@ctrArgResult.Conclusions</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Điểm</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <input class="form-control" value="@ctrArgResult.Point" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/mazer-main/vendors/ckeditor/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#thesisDescription'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '450px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#contents'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#attitudes'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#results'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#conclusions'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#c_contents'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#researchMethods'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#scientificResults'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#practicalResults'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#defects'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#answers'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#c_conclusions'))
+            .then(editor => {
+                editor.isReadOnly = true;
+                editor.ui.view.editable.element.style.height = '150px';
+                const toolbarElement = editor.ui.view.toolbar.element;
+                toolbarElement.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+            });
+    </script>
+}

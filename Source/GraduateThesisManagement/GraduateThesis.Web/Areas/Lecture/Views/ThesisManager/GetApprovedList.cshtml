@@ -1,0 +1,138 @@
+﻿@model IEnumerable<ThesisOutput>
+
+<section id="basic-dropdown">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <a asp-action="ExportApprovedTheses" class="btn btn-info" type="button">Xuất</a>
+                    <a asp-action="Print" class="btn btn-secondary" type="button">In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            @await Component.InvokeAsync("FacultyStaffLayout_ThesisListSlctn", new { action = "GetApprovedList" })
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("FacultyStaffLayout_PagedSearch", new { action = "GetRejectedList", enableSearchBy = true })
+                <form asp-action="PublishTheses" method="post">
+                    <div class="dataTable-top">
+                        <div class="dataTable-search">
+                            <input type="hidden" name="thesisIds" id="thesisIds" value="" />
+                            <button type="submit" class="dataTable-input">Công bố những đề tài đã chọn</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 8%; text-align: center;">
+                                    <a href="#" class="dataTable-sorter"><input type="checkbox" id="checkAll" onclick="checkAll();" /></a>
+                                </th>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 12%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Lecturer.FullName)</a>
+                                </th>
+                                <th data-sortable="" style="width: 12%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Year)</a>
+                                </th>
+                                <th data-sortable="" style="width: 8%">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Semester)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (ThesisOutput thesis in (IEnumerable<ThesisOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <input type="checkbox" id="check_@count" thesis-id="@thesis.Id" onclick="setToInputElement();" />
+                                    </td>
+                                    <td>@count</td>
+                                    <td>@thesis.Id</td>
+                                    <td>@thesis.Name</td>
+                                    <td>@thesis.Lecturer.FullName</td>
+                                    <td>@thesis.Year</td>
+                                    <td>@thesis.Semester</td>
+                                    <td>
+                                        <button type="submit" form="publish_@count" class="btn btn-success btn-sm"><i class="fas fa-trash"></i> Công bố</button>
+                                        <form asp-action="PublishThesis" asp-route-thesisId="@thesis.Id" id="publish_@count" method="post">
+                                        </form>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("FacultyStaffLayout_Paged", new { action = "GetRejectedList", enableSearchBy = true })
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        function setToInputElement() {
+            let thesisIdsElement = document.querySelector('#thesisIds');
+            thesisIdsElement.value = '';
+            let i = 1;
+            while (1) {
+                let checkElement = document.querySelector(`#check_${i}`);
+                if (checkElement == null)
+                    break;
+
+                if (checkElement.checked) {
+                    let thesisId = checkElement.getAttribute('thesis-id');
+                    if (thesisIdsElement.value == '')
+                        thesisIdsElement.value = thesisId;
+                    else
+                        thesisIdsElement.value += `;${thesisId}`;
+                }
+
+                i++;
+            }
+        }
+
+        function checkAll() {
+            let checked = document.querySelector('#checkAll').checked;
+            let thesisIdsElement = document.querySelector('#thesisIds');
+            thesisIdsElement.value = '';
+            let i = 1;
+            while (1) {
+                let checkElement = document.querySelector(`#check_${i}`);
+                if (checkElement == null)
+                    break;
+
+                checkElement.checked = checked;
+                i++;
+            }
+
+            setToInputElement();
+        }
+    </script>
+}

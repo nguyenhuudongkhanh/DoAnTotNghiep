@@ -1,0 +1,74 @@
+﻿@model IEnumerable<AppRoleOutput>
+
+@await Component.InvokeAsync("AdminLayout_Toolbar")
+
+@await Component.InvokeAsync("AdminLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("AdminLayout_PagedSearch")
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 30%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 35%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 25%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (AppRoleOutput appRole in (IEnumerable<AppRoleOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@appRole.Id</td>
+                                    <td>@appRole.Name</td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@appRole.Id">
+                                            <i class="fas fa-folder"></i> Chi tiết
+                                        </a>
+                                        <div class="btn-group">
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Tác vụ
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin: 0px;">
+                                                    <a class="dropdown-item" asp-action="Edit" asp-route-Id="@appRole.Id">Sửa</a>
+                                                    <a class="dropdown-item" asp-action="AddPage" asp-route-roleId="@appRole.Id">Thêm trang</a>
+                                                    <a class="dropdown-item" asp-action="RemovePage" asp-route-roleId="@appRole.Id">Xóa trang</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" form="delete_@count" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Xóa</button>
+                                        <form asp-action="BatchDelete" asp-route-id="@appRole.Id" id="delete_@count" method="post">
+                                        </form>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("AdminLayout_Paged")
+            </div>
+        </div>
+    </div>
+
+</section>
+

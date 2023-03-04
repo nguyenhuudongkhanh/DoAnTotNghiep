@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ThesisOutput>
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Lecturer.FullName)</a>
+                                </th>
+                                <th data-sortable="" style="width: 12%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Year)</a>
+                                </th>
+                                <th data-sortable="" style="width: 8%">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Semester)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (ThesisOutput thesis in Model)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@thesis.Id</td>
+                                    <td>@thesis.Name</td>
+                                    <td>@thesis.Lecturer.FullName</td>
+                                    <td>@thesis.Year</td>
+                                    <td>@thesis.Semester</td>
+                                    <td>
+                                        <button type="submit" form="restore_@count" class="btn btn-primary btn-sm"><i class="fas fa-restore"></i> Khôi phục</button>
+                                        <button type="submit" form="delete_@count" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Xóa vĩnh viễn</button>
+                                        <form asp-action="Restore" asp-route-id="@thesis.Id" id="restore_@count" method="post">
+                                        </form>
+                                        <form asp-action="ForceDelete" asp-route-id="@thesis.Id" id="delete_@count" method="post">
+                                        </form>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

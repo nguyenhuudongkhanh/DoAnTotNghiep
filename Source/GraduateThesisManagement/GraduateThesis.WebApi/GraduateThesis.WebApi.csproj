@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\CounterargumentController.cs" />
+    <Compile Remove="Controllers\CourseTrainingController.cs" />
+    <Compile Remove="Controllers\DoresearchController.cs" />
+    <Compile Remove="Controllers\FacultyStaffsController.cs" />
+    <Compile Remove="Controllers\GuideController.cs" />
+    <Compile Remove="Controllers\LecturersController.cs" />
+    <Compile Remove="Controllers\ResearchController.cs" />
+    <Compile Remove="Controllers\StudentThesisGroupDetailsController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GraduateThesis.ApplicationCore\GraduateThesis.ApplicationCore.csproj" />
+    <ProjectReference Include="..\GraduateThesis.ExtensionMethods\GraduateThesis.ExtensionMethods.csproj" />
+    <ProjectReference Include="..\GraduateThesis.Repository.BLL\GraduateThesis.Repository.BLL.csproj" />
+  </ItemGroup>
+
+</Project>

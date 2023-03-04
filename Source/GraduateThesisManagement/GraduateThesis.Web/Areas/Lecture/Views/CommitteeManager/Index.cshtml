@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ThesisCommitteeOutput>
+
+@await Component.InvokeAsync("FacultyStaffLayout_Toolbar", new { showImportButton = false, showExportButton = false, showPrintButton = false })
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("FacultyStaffLayout_PagedSearch")
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 30%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Council.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 30%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (ThesisCommitteeOutput thesisCommittee in (IEnumerable<ThesisCommitteeOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@thesisCommittee.Id</td>
+                                    <td>@thesisCommittee.Name</td>
+                                    <td>@thesisCommittee.Council.Name</td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@thesisCommittee.Id">
+                                            <i class="fas fa-folder"></i> Chi tiết
+                                        </a>
+                                        <div class="btn-group">
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Tác vụ
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin: 0px;">
+                                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@thesisCommittee.Id">Sửa</a>
+                                                    <a class="dropdown-item" asp-action="LoadAddMemberView" asp-route-committeeId="@thesisCommittee.Id">Thêm thành viên</a>
+                                                    <a class="dropdown-item" asp-action="LoadAddThesisView" asp-route-committeeId="@thesisCommittee.Id">Thêm đề tài</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" form="delete_@count" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Xóa</button>
+                                        <form asp-action="BatchDelete" asp-route-id="@thesisCommittee.Id" id="delete_@count" method="post">
+                                        </form>
+                                      
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("FacultyStaffLayout_Paged")
+            </div>
+        </div>
+    </div>
+
+</section>
+

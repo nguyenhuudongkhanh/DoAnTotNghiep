@@ -1,0 +1,152 @@
+﻿@model AppUserRoleInput;
+@{
+    FacultyStaffOutput facultyStaff = (ViewData["FacultyStaff"] as FacultyStaffOutput)!;
+}
+
+@await Component.InvokeAsync("AdminLayout_StatusArea")
+
+<section id="basic-horizontal-layouts">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">@ViewData["PageName"]: "@facultyStaff.FullName"</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Mã</label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input class="form-control" value="@facultyStaff.Id" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Tên</label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input class="form-control" value="@facultyStaff.FullName" placeholder="Nhập tên chủ đề" disabled />
+                        </div>
+                    </div>
+
+                    @if (facultyStaff.Roles.Count == 0)
+                    {
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <h4 class="card-title text-danger">Người dùng này chưa được cấp quyền</h4>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div>
+                                        <h4 class="card-title">Quyền đã chọn</h4>
+                                    </div>
+                                    <div class="dataTable-container">
+                                        <table class="table table-striped dataTable-table" id="table1">
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="" style="width: 10%;">
+                                                        <a href="#" class="dataTable-sorter">STT</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 30%;">
+                                                        <a href="#" class="dataTable-sorter">Mã</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 40%;">
+                                                        <a href="#" class="dataTable-sorter">Tên quyền</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%; text-align: center;">
+                                                        <a href="#" class="dataTable-sorter">Công cụ</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int count = 1;
+                                                }
+                                                @foreach (AppRoleOutput appRole in facultyStaff.Roles)
+                                                {
+                                                    <tr>
+                                                        <td>@count</td>
+                                                        <td>@appRole.Id</td>
+                                                        <td>@appRole.Name</td>
+                                                        <td style="text-align: center;">
+                                                            <form asp-action="RevokeRole" asp-route-userId="@facultyStaff.Id" id="revoke_@count" method="post">
+                                                                <input type="hidden" asp-for="RoleId" value="@appRole.Id" />
+                                                                <input type="hidden" asp-for="UserId" value="@facultyStaff.Id" />
+                                                                <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Thu hồi</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    count++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Gán quyền cho người dùng</h4>
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("AdminLayout_PagedSearch", new { action = "GrantRole" })
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 30%;">
+                                    <a href="#" class="dataTable-sorter">Mã</a>
+                                </th>
+                                <th data-sortable="" style="width: 40%;">
+                                    <a href="#" class="dataTable-sorter">Tên quyền</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%; text-align: center;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count2 = 1;
+                            }
+                            @foreach (AppRoleOutput appRole in (IEnumerable<AppRoleOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td>@count2</td>
+                                    <td>@appRole.Id</td>
+                                    <td>@appRole.Name</td>
+                                    <td style="text-align: center;">
+                                        <form asp-action="GrantRole" asp-route-userId="@facultyStaff.Id" id="grant_@count2" method="post">
+                                            <input type="hidden" asp-for="RoleId" value="@appRole.Id" />
+                                            <input type="hidden" asp-for="UserId" value="@facultyStaff.Id" />
+                                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-trash"></i> Gán quyền</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                count2++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("AdminLayout_Paged", new { action = "GrantRole" })
+            </div>
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,108 @@
+﻿@model StudentInput
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewData["PageName"]: "@Model.Id - @((Model as StudentOutput)!.FullName)"</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form asp-action="Edit" asp-route-id="@Model.Id" class="form form-horizontal" method="post">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label asp-for="Id"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Id" class="form-control" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Surname"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Surname" class="form-control" placeholder="Nhập họ sinh viên" />
+                                        <span asp-validation-for="Surname" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Name"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Name" class="form-control" placeholder="Nhập tên sinh viên" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Email"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Email" class="form-control" placeholder="Nhập địa chỉ Email" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Phone"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Phone" class="form-control" placeholder="Nhập số điện thoại" />
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Gender"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <select asp-for="Gender" class="form-control">
+                                            <option value="Nam">Nam</option>
+                                            <option value="Nữ">Nữ</option>
+                                        </select>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Birthday"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Birthday" class="form-control" />
+                                        <span asp-validation-for="Birthday" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Address"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Address" class="form-control" placeholder="Nhập địa chỉ" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="StudentClassId"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <select asp-for="StudentClassId" asp-items="@((SelectList)ViewData["StudentClassSelectList"]!)" class="form-control">
+                                        </select>
+                                        <span asp-validation-for="StudentClassId" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Description"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <textarea asp-for="Description" class="form-control" placeholder="Mô tả"></textarea>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-sm-12 d-flex justify-content-end">
+                                        <a asp-action="Index" class="btn btn-light-secondary me-1 mb-1">Quay về danh sách</a>
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Chỉnh sửa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

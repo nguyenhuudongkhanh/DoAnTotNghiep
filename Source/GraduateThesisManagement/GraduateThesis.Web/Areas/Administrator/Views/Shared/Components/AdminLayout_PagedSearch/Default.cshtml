@@ -1,0 +1,88 @@
+﻿@{
+    IPagedList pagedInfo = (IPagedList)ViewData["PagedList"]!;
+}
+
+<form asp-action="@ViewData["Action"]" method="get">
+    <input type="hidden" name="page" value="1" />
+    <div class="dataTable-top">
+        <div class="dataTable-dropdown">
+            <select class="dataTable-selector form-select" name="pageSize" onchange="this.form.submit();">
+                @for (int i = 10; i <= 100; i += 10)
+                {
+                    if (i == pagedInfo.PageSize)
+                    {
+                        <option value="@i" selected>@i</option>
+                    }
+                    else
+                    {
+                        <option value="@i">@i</option>
+                    }
+                }
+            </select><label>dòng trên 1 trang</label>
+        </div>
+        <div class="dataTable-search">
+            <div class="dataTable-search">
+                @if ((bool)ViewData["EnableOrder"]!)
+                {
+                    Dictionary<string, string> orderByProperties = (ViewData["OrderByProperties"] as Dictionary<string, string>)!;
+                    string orderOptions = (ViewData["OrderOptions"] as string)!;
+                    string orderBy = (ViewData["OrderBy"] as string)!;
+
+                    <select name="orderOptions" class="dataTable-input">
+                        @if (orderOptions == "ASC")
+                        {
+                            <option value="ASC" selected>Tăng dần</option>
+                        }
+                        else
+                        {
+                            <option value="ASC">Tăng dần</option>
+                        }
+
+                        @if (orderOptions == "DESC")
+                        {
+                            <option value="DESC" selected>Giảm dần</option>
+                        }
+                        else
+                        {
+                            <option value="DESC">Giảm dần</option>
+                        }
+                    </select>
+                    <select name="orderBy" class="dataTable-input" onchange="this.form.submit();">
+                        @foreach (KeyValuePair<string, string> orderByProperty in orderByProperties)
+                        {
+                            if (orderBy == orderByProperty.Key)
+                            {
+                                <option value="@orderByProperty.Key" selected>Sắp xếp theo @orderByProperty.Value</option>
+                            }
+                            else
+                            {
+                                <option value="@orderByProperty.Key">Sắp xếp theo @orderByProperty.Value</option>
+                            }
+                        }
+                    </select>
+                }
+
+                @if ((bool)ViewData["EnableSearchBy"]!)
+                {
+                    Dictionary<string, string> searchByProperties = (ViewData["SearchByProperties"] as Dictionary<string, string>)!;
+                    string searchBy = (ViewData["SearchBy"] as string)!;
+
+                    <select name="searchBy" class="dataTable-input">
+                        @foreach (KeyValuePair<string, string> searchByProperty in searchByProperties)
+                        {
+                            if (searchBy == searchByProperty.Key)
+                            {
+                                <option value="@searchByProperty.Key" selected>Tìm theo @searchByProperty.Value</option>
+                            }
+                            else
+                            {
+                                <option value="@searchByProperty.Key">Tìm theo @searchByProperty.Value</option>
+                            }
+                        }
+                    </select>
+                }
+                <input class="dataTable-input" name="keyword" value="@ViewData["Keyword"]" placeholder="Search..." type="text">
+            </div>
+        </div>
+    </div>
+</form>

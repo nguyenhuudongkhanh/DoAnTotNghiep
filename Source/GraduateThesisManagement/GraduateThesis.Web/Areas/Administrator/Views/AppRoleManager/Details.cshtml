@@ -1,0 +1,117 @@
+﻿@model AppRoleOutput
+
+<section id="basic-horizontal-layouts">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">@ViewData["PageName"]: "@Model.Name"</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label asp-for="Id"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="Id" class="form-control" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Name"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="Name" class="form-control" placeholder="Nhập tên chủ đề" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Description"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <textarea asp-for="Description" class="form-control" placeholder="Mô tả" disabled></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="CreatedAt"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="CreatedAt" class="form-control" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="UpdatedAt"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="UpdatedAt" class="form-control" disabled />
+                        </div>
+                    </div>
+
+                    @if (Model.AppPages.Count == 0)
+                    {
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <h4 class="card-title text-danger">Nhóm quyền này chưa được cấp chức năng!</h4>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div>
+                                        <h4 class="card-title">Các chức năng của nhóm quyền này</h4>
+                                    </div>
+                                    @await Component.InvokeAsync("AdminLayout_PagedSearch", new { action = "Details" })
+                                    <div class="dataTable-container">
+                                        <table class="table table-striped dataTable-table" id="table1">
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="" style="width: 10%;">
+                                                        <a href="#" class="dataTable-sorter">STT</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%;">
+                                                        <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.AppPages[0].Id)</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 30%;">
+                                                        <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.AppPages[0].PageName)</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%;">
+                                                        <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.AppPages[0].ControllerName)</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%;">
+                                                        <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.AppPages[0].ActionName)</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int count = 1;
+                                                }
+                                                @foreach (AppPageOutput appPage in (IEnumerable<AppPageOutput>)ViewData["PagedList"]!)
+                                                {
+                                                    <tr>
+                                                        <td>@count</td>
+                                                        <td>@appPage.Id</td>
+                                                        <td>@appPage.PageName</td>
+                                                        <td>@appPage.ControllerName</td>
+                                                        <td>@appPage.ActionName</td>
+                                                    </tr>
+                                                    count++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @await Component.InvokeAsync("AdminLayout_Paged", new { action = "Details" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <a asp-action="Index" class="btn btn-light-secondary me-1 mb-1">Quay về danh sách</a>
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-1 mb-1">Chỉnh sửa</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

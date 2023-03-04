@@ -1,0 +1,157 @@
+﻿@model CtrArgResultInput
+@{
+    ThesisOutput thesis = (ViewData["Thesis"] as ThesisOutput)!;
+}
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewData["PageName"]:</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form asp-action="UpdateCtrArgResult" class="form form-horizontal" method="post">
+                            <input type="hidden" asp-for="LecturerId"/>
+                            <input type="hidden" asp-for="ThesisId" />
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Tên đề tài</label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input class="form-control" value="@thesis.Name" readonly />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Contents"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <textarea asp-for="Contents" class="form-control" id="contents" placeholder="Đánh giá về nội dung"></textarea>
+                                        <span asp-validation-for="Contents" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="ResearchMethods"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <textarea asp-for="ResearchMethods" class="form-control" id="researchMethods" placeholder="Đánh giá về phương pháp nghiên cứu"></textarea>
+                                        <span asp-validation-for="ResearchMethods" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="ScientificResults"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <textarea asp-for="ScientificResults" class="form-control" id="scientificResults" placeholder="Đánh giá về kết quả khoa học"></textarea>
+                                        <span asp-validation-for="ScientificResults" class="text-danger"></span>
+                                      </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="PracticalResults"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                         <textarea asp-for="PracticalResults" class="form-control" id="practicalResults" placeholder="Đánh giá về Kết quả thực hành"></textarea>
+                                        <span asp-validation-for="PracticalResults" class="text-danger"></span>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label asp-for="Defects"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                            <textarea asp-for="Defects" class="form-control" id="defects" placeholder="Khuyết điểm của đề tài"></textarea>
+                                        <span asp-validation-for="Defects" class="text-danger"></span>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label asp-for="Answers"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                            <textarea asp-for="Answers" class="form-control" id="answers" placeholder="Câu trả lời"></textarea>
+                                        <span asp-validation-for="Answers" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Conclusions"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <textarea asp-for="Conclusions" class="form-control" id="conclusions" placeholder="Kết luận"></textarea>
+                                        <span asp-validation-for="Conclusions" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Point"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Point" class="form-control" />
+                                        <span asp-validation-for="Point" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-sm-12 d-flex justify-content-end">
+                                        <a asp-action="Index" class="btn btn-light-secondary me-1 mb-1">Quay về danh sách</a>
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Chỉnh sửa</button>
+                                    </div>
+                                    </div>            
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .ck-editor__editable {
+            min-height: 250px;
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/mazer-main/vendors/ckeditor/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#contents'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#researchMethods'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#scientificResults'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#practicalResults'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#defects'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#answers'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#conclusions'))
+            .catch(error => {
+                console.error(error);
+            });
+
+    </script>
+}

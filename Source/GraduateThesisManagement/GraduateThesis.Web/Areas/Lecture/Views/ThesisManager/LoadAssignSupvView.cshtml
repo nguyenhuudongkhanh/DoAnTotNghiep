@@ -1,0 +1,225 @@
+﻿@model ThesisOutput
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewData["PageName"]: "@Model.Name"</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form form-horizontal">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label asp-for="Id" class="form-label"></label>
+                                    <input asp-for="Id" class="form-control" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label"></label>
+                                    <input asp-for="Name" class="form-control" placeholder="Nhập tên đề tài" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Description" class="form-label"></label>
+                                    <textarea asp-for="Description" class="form-control" id="thesisDescription" placeholder="Mô tả" disabled></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                        <label asp-for="MaxStudentNumber" class="form-label"></label>
+                                        <input asp-for="MaxStudentNumber" class="form-control" placeholder="Nhập số sinh viên tối đa" disabled />
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                        <label asp-for="Credits" class="form-label"></label>
+                                        <input asp-for="Credits" class="form-control" placeholder="Nhập số tín chỉ" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                        <label asp-for="Topic.Name" class="form-label"></label>
+                                        <input asp-for="Topic.Name" class="form-control" placeholder="Nhập vào tên chủ đề khóa luận" disabled />
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                        <label asp-for="Specialization.Name" class="form-label"></label>
+                                        <input asp-for="Specialization.Name" class="form-control" placeholder="Nhập vào tên chuyên ngành" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                        <label asp-for="TrainingLevel.Name" class="form-label"></label>
+                                        <input asp-for="TrainingLevel.Name" class="form-control" placeholder="Nhập vào bậc đào tạo" disabled />
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                        <label asp-for="TrainingForm.Name" class="form-label"></label>
+                                        <input asp-for="TrainingForm.Name" class="form-control" placeholder="Nhập vào hình thức đào tạo" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                        <label asp-for="DateFrom" class="form-label"></label>
+                                        <input asp-for="DateFrom" class="form-control" disabled />
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 form-group">
+                                        <label asp-for="DateTo" class="form-label"></label>
+                                        <input asp-for="DateTo" class="form-control" disabled />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Lecturer.FullName" class="form-label">Giảng viên ra đề</label>
+                                    <input value="@Model.Lecturer.Id - @Model.Lecturer.FullName" class="form-control" placeholder="Nhập tên giảng viên" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CreatedAt" class="form-label"></label>
+                                    <input asp-for="CreatedAt" class="form-control" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="UpdatedAt" class="form-label"></label>
+                                    <input asp-for="UpdatedAt" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </form>
+
+                        @if (Model.ThesisSupervisor != null)
+                        {
+                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns mt-5">
+                                <div>
+                                    <h4 class="card-title">Giảng viên đã được phân công</h4>
+                                </div>
+                                <div class="dataTable-container">
+                                    <table class="table table-striped dataTable-table" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th data-sortable="" style="width: 20%;">
+                                                    <a href="#" class="dataTable-sorter">Mã giảng viên</a>
+                                                </th>
+                                                <th data-sortable="" style="width: 35%;">
+                                                    <a href="#" class="dataTable-sorter">Họ tên giảng viên</a>
+                                                </th>
+                                                <th data-sortable="" style="width: 25%;">
+                                                    <a href="#" class="dataTable-sorter">Email</a>
+                                                </th>
+                                                <th data-sortable="" style="width: 20%;">
+                                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>@Model.ThesisSupervisor.Id</td>
+                                                <td>@Model.ThesisSupervisor.FullName</td>
+                                                <td>@Model.ThesisSupervisor.Email</td>
+                                                <td>
+                                                    <form asp-action="RemoveAssignSupv" method="post">
+                                                        <input type="hidden" name="thesisId" value="@Model.Id" />
+                                                        <input type="hidden" name="lecturerId" value="@Model.ThesisSupervisor.Id" />
+                                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hủy phân công</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mt-5">
+                                <h4 class="card-title">Đặt giảng viên ra đề làm GVHD</h4>
+                                <form class="form form-horizontal" asp-action="AssignDefautSupv">
+                                    <input type="hidden" name="thesisId" value="@Model.Id" />
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <input class="form-control" value="@Model.Lecturer.Id - @Model.Lecturer.FullName" disabled />
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-success me-1 mb-1">Phân công</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="mt-5">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div>
+                                        <h4 class="card-title">Chọn giảng viên khác</h4>
+                                    </div>
+                                    @await Component.InvokeAsync("FacultyStaffLayout_PagedSearch", new { action = "LoadAssignSupvView", enableSearchBy = true })
+                                    <div class="dataTable-container">
+                                        <table class="table table-striped dataTable-table" id="table1">
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="" style="width: 10%;">
+                                                        <a href="#" class="dataTable-sorter">STT</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%;">
+                                                        <a href="#" class="dataTable-sorter">Mã giảng viên</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 25%;">
+                                                        <a href="#" class="dataTable-sorter">Họ tên giảng viên</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 25%;">
+                                                        <a href="#" class="dataTable-sorter">Email</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%;">
+                                                        <a href="#" class="dataTable-sorter">Công cụ</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int count = 1;
+                                                }
+                                                @foreach (FacultyStaffOutput facultyStaff in (IEnumerable<FacultyStaffOutput>)ViewData["PagedList"]!)
+                                                {
+                                                    <tr>
+                                                        <td>@count</td>
+                                                        <td>@facultyStaff.Id</td>
+                                                        <td>@facultyStaff.FullName</td>
+                                                        <td>@facultyStaff.Email</td>
+                                                        <td>
+                                                            <form asp-action="AssignSupervisor" method="post">
+                                                                <input type="hidden" name="thesisId" value="@Model.Id" />
+                                                                <input type="hidden" name="lecturerId" value="@facultyStaff.Id" />
+                                                                <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-trash"></i>Phân công</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    count++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @await Component.InvokeAsync("FacultyStaffLayout_Paged", new { action = "LoadAssignSupvView", enableSearchBy = true })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .ck-editor__editable {
+            min-height: 450px;
+        }
+    </style>
+}
+
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/mazer-main/vendors/ckeditor/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#thesisDescription'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

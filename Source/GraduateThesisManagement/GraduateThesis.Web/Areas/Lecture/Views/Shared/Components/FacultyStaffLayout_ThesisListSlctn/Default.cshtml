@@ -1,0 +1,19 @@
+﻿@{
+    Dictionary<string, string> selectAction = new Dictionary<string, string> {
+        { "Index", "Tất cả" }, { "GetPendingList", "Đang chờ duyệt" }, { "GetRejectedList", "Bị từ chối duyệt" },
+        { "GetApprovedList", "Đã được duyệt" }, { "GetPublishedList", "Đã công bố" }, { "GetInProgressList", "Đang thực hiện" },
+        { "GetSubmittedList", "Đã nộp" }, { "GetFinishedList", "Đã kết thúc" }
+    };
+}
+
+Xem theo:
+<select class="form-control" style="width: 160px; display: inline-block;" onchange="location = this.value;">
+    @foreach (KeyValuePair<string, string> actionPair in selectAction)
+    {
+        if(ViewData["Action"]!.ToString() == actionPair.Key){
+            <option value="@Url.Action(actionPair.Key)" selected>@actionPair.Value</option>
+        }else{
+            <option value="@Url.Action(actionPair.Key)">@actionPair.Value</option>
+        }
+    }
+</select>

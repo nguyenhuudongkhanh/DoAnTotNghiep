@@ -1,0 +1,122 @@
+﻿@model ThesisRegistrationInput;
+
+@{
+    StudentOutput student = (ViewData["AccountModel"] as StudentOutput)!;
+}
+
+<form class="form form-vertical" asp-action="Register">
+    <input type="hidden" asp-for="RegisteredStudentId" value="@student.Id" />
+    <input type="hidden" asp-for="StudentIdList" id="selectedStudentInput" value="@student.Id" />
+    <section id="basic-vertical-layouts">
+        <div class="row match-height">
+            <div class="col-md-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@ViewData["PageName"]</h4>
+                        <p class="card-text">Thông tin cơ bản</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label asp-for="GroupName" class="form-label"></label>
+                                    <input asp-for="GroupName" class="form-control" placeholder="Nhập vào tên nhóm" />
+                                    <span asp-validation-for="GroupName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="GroupDescription" class="form-label"></label>
+                                    <textarea asp-for="GroupDescription" class="form-control" placeholder="Nhập vào tên nhóm" style="height: 100px;"></textarea>
+                                    <span asp-validation-for="GroupDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="basic-vertical-layouts">
+        <div class="row match-height">
+            <div class="col-md-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@ViewData["PageName"]</h4>
+                        <p class="card-text">Thêm thành viên vào nhóm</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="form-label">Tìm sinh viên</label>
+                                    <input type="text" class="form-control" id="studentKeyword" placeholder="Nhập vào MSSV">
+                                </div>
+                                <div class="form-group">
+                                    <table class="table table-bordered table-hover table-info" id="searchResultTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã sinh viên</th>
+                                                <th>Tên sinh viên</th>
+                                                <th>Lớp</th>
+                                                <th>Chọn</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="searchResult">
+                                            <tr id="searchResult_defaultRow">
+                                            <td colspan="4">Chưa thực hiện tìm kiếm</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Danh sách sinh viên đã chọn</label>
+                                    <table class="table table-bordered table-hover table-info" id="selectedStudentTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã sinh viên</th>
+                                                <th>Tên sinh viên</th>
+                                                <th>Lớp</th>
+                                                <th>Chọn</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="selectedStudent">
+                                            <tr id="selected_@student.Id">
+                                                <td>@student.Id</td>
+                                                <td>@student.FullName</td>
+                                                <td>@student.StudentClass.Name</td>
+                                                <td>Đây là bạn</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="basic-vertical-layouts">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary me-1 mb-1">Hoàn tất đăng ký</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/student-area/js/student-thesis.js"></script>
+    <script>
+        thesisId = "@ViewData["ThesisId"]";
+        searchStudentUrl = "@Url.Action("SearchStudents")";
+        getStudentByIdUrl = "@Url.Action("GetStudentById")";
+        checkCanAddMemberUrl = "@Url.Action("CanAddMember")";
+    </script>
+}

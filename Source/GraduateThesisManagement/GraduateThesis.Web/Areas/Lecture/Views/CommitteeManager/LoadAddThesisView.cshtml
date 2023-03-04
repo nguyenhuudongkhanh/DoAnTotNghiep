@@ -1,0 +1,253 @@
+﻿@model ThesisCommitteeOutput
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section id="basic-horizontal-layouts">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">@ViewData["PageName"]: "@Model.Name"</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label asp-for="Id"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="Id" class="form-control" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Name"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="Name" class="form-control" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Description"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <textarea asp-for="Description" class="form-control" placeholder="Mô tả" disabled></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Council.Name"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="Council.Name" class="form-control" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="CreatedAt"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="CreatedAt" class="form-control" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="UpdatedAt"></label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="UpdatedAt" class="form-control" disabled />
+                        </div>
+                    </div>
+                    @if (Model.Members.Count == 0)
+                    {
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <h4 class="card-title text-danger">Tiểu ban này chưa có thành viên!</h4>
+                                <a asp-action="LoadAddMemberView" asp-route-committeeId="@Model.Id">Phân công thành viên</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div>
+                                        <h4 class="card-title">Thành viên trong tiểu ban</h4>
+                                    </div>
+                                    <div class="dataTable-container">
+                                        <table class="table table-striped dataTable-table" id="table1">
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="" style="width: 10%;">
+                                                        <a href="#" class="dataTable-sorter">STT</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 15%;">
+                                                        <a href="#" class="dataTable-sorter">Mã thành viên</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 25%;">
+                                                        <a href="#" class="dataTable-sorter">Họ tên</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 25%;">
+                                                        <a href="#" class="dataTable-sorter">Email</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 25%;">
+                                                        <a href="#" class="dataTable-sorter">Vai trò</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int count = 1;
+                                                }
+                                                @foreach (CommitteeMemberOutput member in Model.Members)
+                                                {
+                                                    <tr>
+                                                        <td>@count</td>
+                                                        <td>@member.MemberId</td>
+                                                        <td>@member.FullName</td>
+                                                        <td>@member.Email</td>
+                                                        <td>@member.Titles</td>
+                                                    </tr>
+                                                    count++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.Theses.Count == 0)
+                    {
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <h4 class="card-title text-danger">Tiểu ban này chưa được phân công đề tài!</h4>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div>
+                                        <h4 class="card-title">Đề tài được phân công của tiểu ban</h4>
+                                    </div>
+                                    <div class="dataTable-container">
+                                        <table class="table table-striped dataTable-table" id="table1">
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="" style="width: 10%;">
+                                                        <a href="#" class="dataTable-sorter">STT</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 15%;">
+                                                        <a href="#" class="dataTable-sorter">Mã đề tài</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 30%;">
+                                                        <a href="#" class="dataTable-sorter">Tên đề tài</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 30%;">
+                                                        <a href="#" class="dataTable-sorter">Giảng viên</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 15%;">
+                                                        <a href="#" class="dataTable-sorter">Công cụ</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int count = 1;
+                                                }
+                                                @foreach (ThesisOutput thesis in Model.Theses)
+                                                {
+                                                    <tr>
+                                                        <td>@count</td>
+                                                        <td>@thesis.Id</td>
+                                                        <td>@thesis.Name</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li>GV ra đề: @thesis.Lecturer.FullName</li>
+                                                                <li>GVHD: @thesis.ThesisSupervisor?.FullName</li>
+                                                                <li>GVPB: @thesis.CriticalLecturer?.FullName</li>
+                                                            </ul>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <form asp-action="DeleteThesis" id="delete_@count" method="post">
+                                                                <input type="hidden" name="thesisId" value="@thesis.Id" />
+                                                                <input type="hidden" name="committeeId" value="@Model.Id" />
+                                                                <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>Xóa</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                    count++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Thêm đề tài vào tiểu ban</h4>
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("FacultyStaffLayout_PagedSearch", new { action = "LoadAddThesisView", enableSearchBy = true })
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">Mã đề tài</a>
+                                </th>
+                                <th data-sortable="" style="width: 30%;">
+                                    <a href="#" class="dataTable-sorter">Mã đề tài</a>
+                                </th>
+                                <th data-sortable="" style="width: 30%;">
+                                    <a href="#" class="dataTable-sorter">Giảng viên</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%; text-align: center;">
+                                    <a href="#" class="dataTable-sorter">Thêm</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count2 = 1;
+                            }
+                            @foreach (ThesisOutput thesis in (IEnumerable<ThesisOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td>@count2</td>
+                                    <td>@thesis.Id</td>
+                                    <td>@thesis.Name</td>
+                                    <td>
+                                        <ul>
+                                            <li>GV ra đề: @thesis.Lecturer.FullName</li>
+                                            <li>GVHD: @thesis.ThesisSupervisor.FullName</li>
+                                            <li>GVPB: @thesis.CriticalLecturer.FullName</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <form asp-action="AddThesis" id="add_@count2" method="post">
+                                            <input type="hidden" name="thesisId" value="@thesis.Id" />
+                                            <input type="hidden" name="committeeId" value="@Model.Id" />
+                                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-trash"></i> Thêm</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                count2++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("FacultyStaffLayout_Paged", new { action = "LoadThesisView", enableSearchBy = true })
+            </div>
+        </div>
+    </div>
+
+</section>

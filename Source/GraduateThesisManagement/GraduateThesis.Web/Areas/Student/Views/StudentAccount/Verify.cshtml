@@ -1,0 +1,54 @@
+﻿@model AccountVerificationModel
+
+@{
+    Layout = "_StudentLogLayout";
+}
+
+<div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                 class="img-fluid" alt="Sample image">
+        </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            @await Component.InvokeAsync("StudentLogLayout_AuthStatusArea")
+            <form asp-controller="StudentAccount" asp-action="Verify" method="post">
+                <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                    <p class="lead fw-normal mb-0 me-3">Thực hiện các bước sau đây để tạo mới mật khẩu!</p>
+                </div>
+
+                <div class="divider d-flex align-items-center my-4">
+                    <p class="text-center fw-bold mx-3 mb-0">***</p>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control form-control-lg"
+                           placeholder="Nhập vào địa chỉ email" readonly />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" asp-for="VerificationCode"></label>
+                    <input asp-for="VerificationCode" class="form-control form-control-lg"
+                           placeholder="Nhập vào mã xác nhận" />
+                    <span asp-validation-for="VerificationCode" class="text-danger"></span>
+                </div>
+
+                <div class="text-center text-lg-start mt-4 pt-2">
+                    <button type="submit" class="btn btn-primary btn-lg"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                        Bước tiếp theo
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

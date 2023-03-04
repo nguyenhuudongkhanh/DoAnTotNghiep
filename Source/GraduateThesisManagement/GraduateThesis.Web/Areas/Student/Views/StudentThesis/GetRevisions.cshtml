@@ -1,0 +1,178 @@
+﻿@model ThesisRevisionInput
+@{
+    List<ThesisRevisionOutput> thesisRevisions = (ViewData["Revisions"] as List<ThesisRevisionOutput>)!;
+}
+
+@await Component.InvokeAsync("StudentLayout_StatusArea")
+
+<section class="list-group-navigation">
+    <div class="card">
+        @if (thesisRevisions.Count == 0)
+        {
+            <div class="card-body text-center">
+                <p class="text-danger">Đề tài này chưa có lịch sử cập nhật tiến độ</p>
+            </div>
+        }
+        else
+        {
+            <div class="card-header">
+                <h4 class="card-title">@ViewData["PageName"]: "@thesisRevisions[0].Thesis.Name"</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-4">
+                            <div class="list-group" role="tablist">
+                                @{
+                                    int count = thesisRevisions.Count;
+                                }
+                                @foreach (ThesisRevisionOutput thesisRevision in thesisRevisions)
+                                {
+                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="list_@count" data-bs-toggle="list" href="#list-@count" role="tab" aria-selected="false">
+                                        <span>@thesisRevision.Title</span>
+                                        <span class="badge bg-info badge-pill badge-round ml-1">@count</span>
+                                    </a>
+                                    count--;
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-8 mt-1">
+                            <div class="tab-content text-justify" id="nav-tabContent">
+                                @{
+                                    count = thesisRevisions.Count;
+                                }
+                                @foreach (ThesisRevisionOutput thesisRevision in thesisRevisions)
+                                {
+                                    <div class="tab-pane show" id="list-@count" role="tabpanel" aria-labelledby="list-@count">
+                                        <div class="create-at">
+                                            <p><span class="fw-bold">Ngày tạo</span>: @thesisRevision.CreatedAt</p>
+                                        </div>
+                                        <div class="summary mt-4">
+                                            <p class="fw-bold">Tóm lược sửa đổi:</p>
+                                            @(new HtmlString(thesisRevision.Summary))
+                                        </div>
+                                        <div class="file mt-4">
+                                            <p>DOC: <a href="@thesisRevision.DocumentFile">@thesisRevision.DocumentFile</a></p>
+                                            <p>PPT: <a href="@thesisRevision.PresentationFile">@thesisRevision.PresentationFile</a></p>
+                                            <p>Source Code: <a href="@thesisRevision.SourceCode">@thesisRevision.SourceCode</a></p>
+                                        </div>
+                                        @if (thesisRevision.Reviewed)
+                                        {
+                                            <div class="border border-primary p-2">
+                                                <div class="lecturer-comment mt-1">
+                                                    <p class="fw-bold">Nhận xét của giảng viên hướng dẫn:</p>
+                                                    @(new HtmlString(thesisRevision.LecturerComment))
+                                                </div>
+                                                <div class="point mt-4">
+                                                    <p><span class="fw-bold">Điểm quá trình</span>: @thesisRevision.Point</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    count--;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@if ((bool)ViewData["IsLeader"]! && (bool)ViewData["InProgress"]!)
+{
+    <section class="list-group-navigation">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Cập nhật tiến độ cho đề tài</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <form asp-action="AddRevision" class="form form-horizontal" method="post">
+                        <input type="hidden" asp-for="GroupId"/>
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="Id"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="Id" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="ThesisId"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="ThesisId" class="form-control" readonly />
+                                    <span asp-validation-for="ThesisId" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Title"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="Title" class="form-control" placeholder="Tiêu đề" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Summary"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <textarea asp-for="Summary" id="summary" class="form-control" placeholder="Tóm lược những sửa đổi"></textarea>
+                                    <span asp-validation-for="Summary" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="DocumentFile"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="DocumentFile" class="form-control" placeholder="Nhập đường dẫn file doc" />
+                                    <span asp-validation-for="DocumentFile" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="PresentationFile"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="PresentationFile" class="form-control" placeholder="Nhập đường dẫn file ppt" />
+                                    <span asp-validation-for="PresentationFile" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="SourceCode"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="SourceCode" class="form-control" placeholder="Nhập đường dẫn source code" />
+                                    <span asp-validation-for="SourceCode" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-12 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary me-1 mb-1">Cập nhật</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @section Styles {
+    <style>
+        .ck-editor__editable {
+            min-height: 150px;
+        }
+    </style>
+    }
+
+    @section Scripts {
+    @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+
+        <script src="~/mazer-main/vendors/ckeditor/ckeditor.js"></script>
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#summary'))
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
+    }
+}
+

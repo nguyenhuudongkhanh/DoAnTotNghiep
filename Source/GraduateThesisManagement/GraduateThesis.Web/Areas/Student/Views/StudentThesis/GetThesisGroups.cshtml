@@ -1,0 +1,89 @@
+﻿@{
+    List<ThesisGroupDtOutput> thesisGroupDts = (Model as List<ThesisGroupDtOutput>)!;
+}
+
+@await Component.InvokeAsync("StudentLayout_StatusArea")
+
+@if (thesisGroupDts.Count == 0)
+{
+    <section class="list-group-navigation">
+        <div class="card">
+            <div class="card-body text-center">
+                <p class="text-danger">Bạn chưa tham gia vào nhóm đề tài!</p>
+            </div>
+        </div>
+    </section>
+}
+
+@foreach (ThesisGroupDtOutput thesisGroupDt in Model)
+{
+    <section id="basic-horizontal-layouts">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Tên đề tài: "@thesisGroupDt.ThesisName"</h4>
+                <div class="mt-3">
+                    <p class="m-0">Tên nhóm: @thesisGroupDt.GroupName</p>
+                    <p class="m-0">Số thành viên: @thesisGroupDt.StudentQuantity</p>
+                    <p class="m-0">Ngày đăng ký: @thesisGroupDt.RegistrationDate</p>
+                    @if (thesisGroupDt.StatusId == GroupStatusConsts.Pending)
+                    {
+                        <p class="m-0 text-info">Trạng thái: Đang chờ chấp thuận vào nhóm</p>
+                    }
+                    else if (thesisGroupDt.StatusId == GroupStatusConsts.Denied)
+                    {
+                        <p class="m-0 text-danger">Trạng thái: Đã từ chối vào nhóm</p>
+                    }
+                    else if (thesisGroupDt.StatusId == GroupStatusConsts.Joined)
+                    {
+                        <p class="m-0 text-success">Trạng thái: Đã tham gia vào nhóm</p>
+                    }
+                    else if (thesisGroupDt.StatusId == GroupStatusConsts.Canceled)
+                    {
+                        <p class="m-0 text-danger">Trạng thái: Đã bị hủy</p>
+                    }
+                    else if (thesisGroupDt.StatusId == GroupStatusConsts.Submitted)
+                    {
+                        <p class="m-0 text-danger">Trạng thái: Đã nộp đề tài</p>
+                    }
+                    else if (thesisGroupDt.StatusId == GroupStatusConsts.Failed)
+                    {
+                        <p class="m-0 text-danger">Trạng thái: Không đạt</p>
+                    }
+                    else
+                    {
+                        <p class="m-0 text-primary">Trạng thái: Đã hoàn thành</p>
+                    }
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        @if (thesisGroupDt.StatusId != GroupStatusConsts.Denied){
+                            <a asp-action="GetThesis" asp-route-thesisId="@thesisGroupDt.ThesisId" class="btn btn-success me-1 mb-1">Xem đề tài</a>
+                        }
+                        
+                        @if (thesisGroupDt.StatusId == GroupStatusConsts.Joined || thesisGroupDt.StatusId == GroupStatusConsts.Submitted)
+                        {
+                            <a asp-action="GetRevisions" asp-route-thesisId="@thesisGroupDt.ThesisId" asp-route-groupId="@thesisGroupDt.GroupId" class="btn btn-success me-1 mb-1">Xem tiến độ</a>
+                            if (thesisGroupDt.StatusId == GroupStatusConsts.Joined && thesisGroupDt.IsLeader)
+                            {
+                                <a asp-action="SubmitThesis" asp-route-thesisId="@thesisGroupDt.ThesisId" asp-route-groupId="@thesisGroupDt.GroupId" class="btn btn-success me-1 mb-1">Nộp đề tài</a>
+                            }
+                        }
+
+                        @if(thesisGroupDt.StatusId == GroupStatusConsts.Pending){
+                            <button type="submit" form="joinToGroup" class="btn btn-success me-1 mb-1">Tham gia</button>
+                            <button type="submit" form="denyFromGroup" class="btn btn-danger me-1 mb-1">Từ chối</button>
+                            <form asp-action="JoinToGroup" id="joinToGroup" method="post">
+                                <input type="hidden" name="groupId" value="@thesisGroupDt.GroupId">
+                            </form>
+                            <form asp-action="DenyFromGroup" id="denyFromGroup" method="post">
+                                <input type="hidden" name="groupId" value="@thesisGroupDt.GroupId">
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

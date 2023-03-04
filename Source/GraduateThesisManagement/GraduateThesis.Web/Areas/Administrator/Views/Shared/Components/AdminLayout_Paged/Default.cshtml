@@ -1,0 +1,110 @@
+﻿@{
+    IPagedList pagedInfo = (IPagedList)ViewData["PagedList"]!;
+}
+
+@if ((bool)ViewData["EnableOrder"]! && (bool)ViewData["EnableSearchBy"]!)
+{
+    <div class="dataTable-bottom">
+        <div class="dataTable-info">Hiển thị @pagedInfo.PageSize trên tổng @pagedInfo.TotalItemCount dòng</div>
+        <ul class="pagination pagination-primary float-end dataTable-pagination">
+            @Html.PagedListPager(
+                (IPagedList)ViewData["PagedList"]!, p => Url.Action((string)@ViewData["Action"]!, new {
+                    page = p,
+                    pageSize = pagedInfo.PageSize,
+                    orderBy = @ViewData["OrderBy"],
+                    orderOptions = @ViewData["OrderOptions"],
+                    searchBy = @ViewData["SearchBy"],
+                    keyword = @ViewData["Keyword"]
+                }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                },
+                ajaxOptions: new AjaxOptions
+                {
+                    UpdateTargetId = "dataTable",
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "GET"
+                }))
+        </ul>
+    </div>
+}
+else if (!(bool)ViewData["EnableOrder"]! && (bool)ViewData["EnableSearchBy"]!)
+{
+    <div class="dataTable-bottom">
+        <div class="dataTable-info">Hiển thị @pagedInfo.PageSize trên tổng @pagedInfo.TotalItemCount dòng</div>
+        <ul class="pagination pagination-primary float-end dataTable-pagination">
+            @Html.PagedListPager(
+                (IPagedList)ViewData["PagedList"]!, p => Url.Action((string)@ViewData["Action"]!, new {
+                    page = p,
+                    pageSize = pagedInfo.PageSize,
+                    searchBy = @ViewData["SearchBy"],
+                    keyword = @ViewData["Keyword"]
+                }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                },
+                ajaxOptions: new AjaxOptions
+                {
+                    UpdateTargetId = "dataTable",
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "GET"
+                }))
+        </ul>
+    </div>
+}
+else if ((bool)ViewData["EnableOrder"]! && !(bool)ViewData["EnableSearchBy"]!)
+{
+    <div class="dataTable-bottom">
+        <div class="dataTable-info">Hiển thị @pagedInfo.PageSize trên tổng @pagedInfo.TotalItemCount dòng</div>
+        <ul class="pagination pagination-primary float-end dataTable-pagination">
+            @Html.PagedListPager(
+                (IPagedList)ViewData["PagedList"]!, p => Url.Action((string)@ViewData["Action"]!, new {
+                    page = p,
+                    pageSize = pagedInfo.PageSize,
+                    orderBy = @ViewData["OrderBy"],
+                    orderOptions = @ViewData["OrderOptions"],
+                    keyword = @ViewData["Keyword"]
+                }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                },
+                ajaxOptions: new AjaxOptions
+                {
+                    UpdateTargetId = "dataTable",
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "GET"
+                }))
+        </ul>
+    </div>
+} 
+else 
+{
+    <div class="dataTable-bottom">
+        <div class="dataTable-info">Hiển thị @pagedInfo.PageSize trên tổng @pagedInfo.TotalItemCount dòng</div>
+        <ul class="pagination pagination-primary float-end dataTable-pagination">
+            @Html.PagedListPager(
+                (IPagedList)ViewData["PagedList"]!, p => Url.Action((string)@ViewData["Action"]!, new {
+                    page = p,
+                    pageSize = pagedInfo.PageSize,
+                    keyword = @ViewData["Keyword"]
+                }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                },
+                ajaxOptions: new AjaxOptions
+                {
+                    UpdateTargetId = "dataTable",
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "GET"
+                }))
+        </ul>
+    </div>
+}

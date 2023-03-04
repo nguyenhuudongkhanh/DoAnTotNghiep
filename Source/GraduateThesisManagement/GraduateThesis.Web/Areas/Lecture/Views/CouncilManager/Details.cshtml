@@ -1,0 +1,70 @@
+﻿@model CouncilOutput
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewData["PageName"]: "@Model.Name"</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form form-horizontal">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label asp-for="Id"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Id" class="form-control" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Name"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Name" class="form-control" placeholder="Nhập tên hội đồng" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Description"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <textarea asp-for="Description" class="form-control" placeholder="Mô tả" disabled></textarea>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label asp-for="Semester"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <textarea asp-for="Semester" class="form-control" disabled></textarea>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label asp-for="Year"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <textarea asp-for="Year" class="form-control"  disabled></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="CreatedAt"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="CreatedAt" class="form-control" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="UpdatedAt"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="UpdatedAt" class="form-control" disabled />
+                                    </div>
+
+                                    <div class="col-sm-12 d-flex justify-content-end">
+                                        <a asp-action="Index" class="btn btn-light-secondary me-1 mb-1">Quay về danh sách</a>
+                                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-1 mb-1">Chỉnh sửa</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

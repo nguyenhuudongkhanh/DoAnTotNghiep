@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DbBackupHistoryOutput>
+
+@await Component.InvokeAsync("AdminLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            <form asp-action="ClearDbBackupHistory" method="post">
+                <button type="submit" class="btn btn-danger btn-sm">Xóa lịch sử sao lưu</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                <div class="dataTable-container">
+                    <table class="table table-striped table-responsive dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.StartDate)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.FinishDate)</a>
+                                </th>
+                                <th data-sortable="" style="width: 30%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.PhysicalDeviceName)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (DbBackupHistoryOutput dbBackupHistory in Model)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@dbBackupHistory.StartDate</td>
+                                    <td>@dbBackupHistory.FinishDate</td>
+                                    <td>@dbBackupHistory.PhysicalDeviceName</td>
+                                    <td>
+                                        <a asp-action="RestoreDatabase" asp-route-mediaSetId="@dbBackupHistory.MediaSetId" class="btn btn-primary btn-sm">Khôi phục</a>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

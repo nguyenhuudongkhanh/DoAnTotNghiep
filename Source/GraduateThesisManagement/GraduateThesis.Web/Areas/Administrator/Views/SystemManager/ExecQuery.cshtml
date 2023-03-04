@@ -1,0 +1,47 @@
+﻿@{
+    bool isShowResult = ViewData["IsShowResult"] == null ? false : (bool)ViewData["IsShowResult"]!;
+}
+
+<section class="section">
+    <div class="alert alert-danger alert-dismissible show fade">
+        Hãy cân nhắc khi chạy tính năng này. Trong một số trường hợp cần thiết, hãy sao lưu cơ sở dữ liệu trước khi thực hiện điều này!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</section>
+
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Chạy truy vấn
+                </div>
+                <div class="card-body">
+                    <form asp-action="ExecQuery" asp-controller="SystemManager" method="post">
+                        <div class="form-group mb-3">
+                            <textarea class="form-control" name="query" id="query" rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger me-1 mb-1">Chạy</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if(isShowResult){
+    <section class="section">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Kết quả
+                    </div>
+                    <div class="card-body">
+                        <textarea class="form-control" name="queryResult" id="queryResult" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

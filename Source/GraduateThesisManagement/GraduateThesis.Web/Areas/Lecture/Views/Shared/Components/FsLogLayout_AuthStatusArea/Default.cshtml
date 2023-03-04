@@ -1,0 +1,57 @@
+﻿@{
+    string cssClass = null!;
+    string status = null!;
+    string message = null!;
+
+    if (ViewData["Status"] != null)
+    {
+        status = ViewData["Status"]!.ToString()!;
+        if (status == "Success")
+        {
+            cssClass = "bg-success";
+        }
+        else if (status == "InvalidData" && status == "NotFound" && status == "AlreadyExits")
+        {
+            cssClass = "bg-warning";
+        }
+        else
+        {
+            cssClass = "bg-danger";
+        }
+
+        message = ViewData["Message"]!.ToString()!;
+    }
+
+    if (TempData["Status"] != null)
+    {
+        status = TempData["Status"]!.ToString()!;
+        if (status == "Success")
+        {
+            cssClass = "bg-success";
+        }
+        else if (status == "InvalidData" && status == "NotFound" && status == "AlreadyExits")
+        {
+            cssClass = "bg-warning";
+        }
+        else
+        {
+            cssClass = "bg-danger";
+        }
+
+        message = TempData["Message"]!.ToString()!;
+    }
+
+    if (string.IsNullOrEmpty(message))
+    {
+        message = "Nội dung thông báo chưa được thiết lập!";
+    }
+}
+
+@if (status != null)
+{
+    <div class="card my-5 @cssClass">
+        <div class="card-body text-white">
+            @message
+        </div>
+    </div>
+}

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ThesisOutput>
+
+@await Component.InvokeAsync("StudentLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("StudentLayout_PagedSearch", new { enableSearchBy = true })
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.MaxStudentNumber)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Lecturer.FullName)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">Trạng thái</a>
+                                </th>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (ThesisOutput thesis in (IEnumerable<ThesisOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@thesis.Id</td>
+                                    <td>@thesis.Name</td>
+                                    <td>@thesis.MaxStudentNumber</td>
+                                    <td>@thesis.Lecturer.FullName</td>
+                                    <td>
+                                        @if (string.IsNullOrEmpty(thesis.ThesisGroupId))
+                                        {
+                                            <span class="badge bg-light-success">Cho phép đăng ký</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-light-danger">Đã có nhóm đăng ký</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@thesis.Id">
+                                            <i class="fas fa-folder"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("StudentLayout_Paged", new { enableSearchBy = true })
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+
+    </script>
+}

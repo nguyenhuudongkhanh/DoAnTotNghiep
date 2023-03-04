@@ -1,0 +1,51 @@
+﻿@model ThesisSubmissionInput
+@{
+    ThesisOutput thesis = (ViewData["Thesis"] as ThesisOutput)!;
+}
+
+@await Component.InvokeAsync("StudentLayout_StatusArea")
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewData["PageName"]: "@thesis.Name"</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form asp-action="SubmitThesis" class="form form-horizontal" method="post" enctype="multipart/form-data">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label asp-for="ThesisId" class="form-label"></label>
+                                    <input asp-for="ThesisId" class="form-control" readonly />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="GroupId" class="form-label"></label>
+                                    <input asp-for="GroupId" class="form-control" readonly />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tên đề tài</label>
+                                    <input class="form-control" value="@thesis.Name" readonly />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="File" class="form-label"></label>
+                                    <input asp-for="File" class="form-control" accept=".rar,.zip" />
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary me-1 mb-1">Nộp đề tài</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

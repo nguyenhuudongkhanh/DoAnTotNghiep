@@ -1,0 +1,135 @@
+﻿@model IEnumerable<AppPageOutput>
+@{
+    AppRoleOutput appRole = (ViewData["Role"] as AppRoleOutput)!;
+}
+
+@await Component.InvokeAsync("AdminLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Tên quyền:</label>
+                </div>
+                <div class="col-md-8 form-group">
+                    <input class="form-control" value="@appRole!.Id - @appRole!.Name" disabled />
+                </div>
+            </div>
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("AdminLayout_PagedSearch", new { action = "AddPage" })
+                <form asp-action="AddPages" asp-route-roleId="@appRole.Id" method="post">
+                    <div class="dataTable-top">
+                        <div class="dataTable-search">
+                            <input type="hidden" name="RoleId" value="@appRole.Id" />
+                            <input type="hidden" name="PageIds" id="pageIds" value="" />
+                            <button type="submit" class="dataTable-input">Thêm (đã chọn)</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 8%; text-align: center;">
+                                    <a href="#" class="dataTable-sorter"><input type="checkbox" id="checkAll" onclick="checkAll();" /></a>
+                                </th>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 12%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.PageName)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.ControllerName)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.ActionName)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%; text-align: center;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (AppPageOutput appPage in (IEnumerable<AppPageOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <input type="checkbox" id="check_@count" page-id="@appPage.Id" onclick="setToInputElement();" />
+                                    </td>
+                                    <td>@count</td>
+                                    <td>@appPage.Id</td>
+                                    <td>@appPage.PageName</td>
+                                    <td>@appPage.ControllerName</td>
+                                    <td>@appPage.ActionName</td>
+                                    <td style="text-align: center;">
+                                        <button type="submit" form="grant_@count" class="btn btn-success btn-sm"><i class="fas fa-trash"></i> Thêm</button>
+                                        <form asp-action="AddPage" id="grant_@count" method="post">
+                                            <input type="hidden" name="PageId" value="@appPage.Id" />
+                                            <input type="hidden" name="RoleId" value="@appRole.Id" />
+                                        </form>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("AdminLayout_Paged", new { action = "AddPage" })
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        function setToInputElement() {
+            let pageIdsElement = document.querySelector('#pageIds');
+            pageIdsElement.value = '';
+            let i = 1;
+            while (1) {
+                let checkElement = document.querySelector(`#check_${i}`);
+                if (checkElement == null)
+                    break;
+
+                if (checkElement.checked) {
+                    let pageId = checkElement.getAttribute('page-id');
+                    if (pageIdsElement.value == '')
+                        pageIdsElement.value = pageId;
+                    else
+                        pageIdsElement.value += `;${pageId}`;
+                }
+
+                i++;
+            }
+        }
+
+        function checkAll() {
+            let checked = document.querySelector('#checkAll').checked;
+            let pageIdsElement = document.querySelector('#pageIds');
+            pageIdsElement.value = '';
+            let i = 1;
+            while (1) {
+                let checkElement = document.querySelector(`#check_${i}`);
+                if (checkElement == null)
+                    break;
+
+                checkElement.checked = checked;
+                i++;
+            }
+
+            setToInputElement();
+        }
+    </script>
+}
+

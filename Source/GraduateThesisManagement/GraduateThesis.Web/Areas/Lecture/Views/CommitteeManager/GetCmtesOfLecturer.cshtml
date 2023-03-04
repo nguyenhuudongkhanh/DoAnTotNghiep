@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ThesisCommitteeOutput>
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("FacultyStaffLayout_PagedSearch", new { action = "GetCmtesOfLecturer", showSearchBy = true })
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 30%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Council.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%; text-align: center;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (ThesisCommitteeOutput thesisCommittee in (IEnumerable<ThesisCommitteeOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@thesisCommittee.Id</td>
+                                    <td>@thesisCommittee.Name</td>
+                                    <td>@thesisCommittee.Council.Name</td>
+                                    <td style="text-align: center;">
+                                        <a class="btn btn-success btn-sm" asp-action="GetCmteOfLecturer" asp-route-committeeId="@thesisCommittee.Id">
+                                            <i class="fas fa-folder"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("FacultyStaffLayout_Paged", new { action = "GetCmtesOfLecturer", showSearchBy = true })
+            </div>
+        </div>
+    </div>
+
+</section>
+

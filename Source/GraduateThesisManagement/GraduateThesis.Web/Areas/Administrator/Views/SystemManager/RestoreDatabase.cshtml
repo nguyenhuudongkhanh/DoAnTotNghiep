@@ -1,0 +1,104 @@
+﻿@model DbBackupHistoryOutput
+
+@await Component.InvokeAsync("AdminLayout_StatusArea")
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Bản sao lưu ngày "@Model.StartDate"</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="Server"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="Server" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="DatabaseName"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="DatabaseName" class="form-control" placeholder="Nhập tên chủ đề" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="StartDate"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <textarea asp-for="StartDate" class="form-control" placeholder="Mô tả" disabled></textarea>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="FinishDate"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="FinishDate" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="ExpirationDate"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="ExpirationDate" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="BackupType"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="BackupType" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="BackupSize"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="BackupSize" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="LogicalDeviceName"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="LogicalDeviceName" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="PhysicalDeviceName"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="PhysicalDeviceName" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="MediaSetId"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="MediaSetId" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="BackupSetName"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="BackupSetName" class="form-control" disabled />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Description"></label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input asp-for="Description" class="form-control" disabled />
+                                </div>
+
+                                <div class="col-sm-12 d-flex justify-content-end">
+                                    <a asp-action="GetDbBackupHistory" class="btn btn-light-secondary me-1 mb-1">Quay về danh sách</a>
+                                    <button type="submit" form="restoreDb" class="btn btn-warning me-1 mb-1"><i class="fas fa-trash"></i> Khôi phuc</button>
+                                    <form asp-action="RestoreDbComfirmed" asp-route-mediaSetId="@Model.MediaSetId" id="restoreDb" method="post">
+                                        <input type="hidden" name="mediaSetId" value="@Model.MediaSetId" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

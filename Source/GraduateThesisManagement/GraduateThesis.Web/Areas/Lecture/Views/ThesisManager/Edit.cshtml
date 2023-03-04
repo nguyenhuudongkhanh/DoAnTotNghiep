@@ -1,0 +1,116 @@
+﻿@model ThesisInput
+@{
+    FacultyStaffOutput facultyStaff = (Model as ThesisOutput)?.Lecturer!;
+    if (facultyStaff == null)
+    {
+        facultyStaff = (ViewData["Lecturer"] as FacultyStaffOutput)!;
+    }
+}
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewData["PageName"]: "@Model.Name"</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form asp-action="Edit" class="form form-horizontal" method="post">
+                            <input type="hidden" asp-for="LectureId" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label asp-for="Id" class="form-label"></label>
+                                    <input asp-for="Id" class="form-control" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Name"></label>
+                                    <input asp-for="Name" class="form-control" placeholder="Nhập tên đề tài" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="MaxStudentNumber"></label>
+                                    <input asp-for="MaxStudentNumber" class="form-control" placeholder="Nhập số sinh viên tối đa" />
+                                    <span asp-validation-for="MaxStudentNumber" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Credits"></label>
+                                    <input asp-for="Credits" class="form-control" placeholder="Nhập số sinh viên tối đa" />
+                                    <span asp-validation-for="Credits" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Description"></label>
+                                    <textarea asp-for="Description" class="form-control" id="thesisDescription" placeholder="Mô tả"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="TopicId"></label>
+                                    <select asp-for="TopicId" class="form-control" asp-items="@((SelectList)ViewData["TopicSelectList"]!)"></select>
+                                    <span asp-validation-for="TopicId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="TrainingLevelId"></label>
+                                    <select asp-for="TrainingLevelId" class="form-control" asp-items="@((SelectList)ViewData["TrainingLevelSelectList"]!)"></select>
+                                    <span asp-validation-for="TrainingLevelId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="TrainingFormId"></label>
+                                    <select asp-for="TrainingFormId" class="form-control" asp-items="@((SelectList)ViewData["TrainingFormSelectList"]!)"></select>
+                                    <span asp-validation-for="TrainingFormId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SpecializationId"></label>
+                                    <select asp-for="SpecializationId" class="form-control" asp-items="@((SelectList)ViewData["SpecializationsSelectList"]!)"></select>
+                                    <span asp-validation-for="SpecializationId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Giảng viên ra đề tài</label>
+                                    <input class="form-control" value="@facultyStaff.Id - @facultyStaff.FullName" placeholder="Nhập tên giảng viên ra đề tài" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Semester"></label>
+                                    <input asp-for="Semester" class="form-control" value="1" placeholder="Nhập học kỳ" />
+                                    <span asp-validation-for="Semester" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Year"></label>
+                                    <input asp-for="Year" class="form-control" value="@DateTime.Now.Year" placeholder="Nhập năm học" />
+                                    <span asp-validation-for="Year" class="text-danger"></span>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <a asp-action="GetThesesOfLecturer" class="btn btn-light-secondary me-1 mb-1">Quay về danh sách</a>
+                                    <button type="submit" class="btn btn-primary me-1 mb-1">Chỉnh sửa</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .ck-editor__editable {
+            min-height: 450px;
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/mazer-main/vendors/ckeditor/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#thesisDescription'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

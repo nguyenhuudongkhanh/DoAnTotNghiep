@@ -1,0 +1,37 @@
+﻿
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <a asp-action="GetDbBackupHistory">Xem lịch sử sao lưu</a>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form asp-action="BackupDatabase" method="post">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Tên cơ sở dữ liệu</label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input class="form-control" value="@ViewData["DbName"]" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Nơi lưu tập tin sao lưu</label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input class="form-control" value="@ViewData["DbBackupFilePath"]" disabled />
+                                    </div>
+                                    <div class="col-sm-12 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Thực hiện</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

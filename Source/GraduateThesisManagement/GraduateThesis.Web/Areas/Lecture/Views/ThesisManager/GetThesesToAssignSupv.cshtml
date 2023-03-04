@@ -1,0 +1,126 @@
+﻿@model IEnumerable<ThesisOutput>
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            Xem theo:
+            <a asp-action="GetThesesToAssignSupv" class="btn btn-sm btn-info mb-1 me-1">Đang chờ phân công</a>
+            <a asp-action="GetAssignedSupvTheses" class="btn btn-sm btn-success mb-1 me-1">Đã phân công</a>
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("FacultyStaffLayout_PagedSearch", new { action = "GetPublishedList", enableSearchBy = true })
+                <form asp-action="AssignSupervisors" method="post">
+                    <div class="dataTable-top">
+                        <div class="dataTable-search">
+                            <input type="hidden" name="thesisIds" id="thesisIds" value="" />
+                            <button type="submit" class="dataTable-input">Phân công GV ra đề làm GVHD (đã chọn)</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 8%; text-align: center;">
+                                    <a href="#" class="dataTable-sorter"><input type="checkbox" id="checkAll" onclick="checkAll();" /></a>
+                                </th>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 12%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">GV ra đề</a>
+                                </th>
+                                <th data-sortable="" style="width: 12%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Year)</a>
+                                </th>
+                                <th data-sortable="" style="width: 8%">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Semester)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (ThesisOutput thesis in (IEnumerable<ThesisOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <input type="checkbox" id="check_@count" thesis-id="@thesis.Id" onclick="setToInputElement();" />
+                                    </td>
+                                    <td>@count</td>
+                                    <td>@thesis.Id</td>
+                                    <td>@thesis.Name</td>
+                                    <td>@thesis.Lecturer.FullName</td>
+                                    <td>@thesis.Year</td>
+                                    <td>@thesis.Semester</td>
+                                    <td>
+                                        <a asp-action="LoadAssignSupvView" asp-route-thesisId="@thesis.Id" class="btn btn-success btn-sm">
+                                            <i class="fas fa-trash"></i>Phân công</a>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("FacultyStaffLayout_Paged", new { action = "GetPublishedList", enableSearchBy = true })
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        function setToInputElement() {
+            let thesisIdsElement = document.querySelector('#thesisIds');
+            thesisIdsElement.value = '';
+            let i = 1;
+            while (1) {
+                let checkElement = document.querySelector(`#check_${i}`);
+                if (checkElement == null)
+                    break;
+
+                if (checkElement.checked) {
+                    let thesisId = checkElement.getAttribute('thesis-id');
+                    if (thesisIdsElement.value == '')
+                        thesisIdsElement.value = thesisId;
+                    else
+                        thesisIdsElement.value += `;${thesisId}`;
+                }
+
+                i++;
+            }
+        }
+
+        function checkAll() {
+            let checked = document.querySelector('#checkAll').checked;
+            let thesisIdsElement = document.querySelector('#thesisIds');
+            thesisIdsElement.value = '';
+            let i = 1;
+            while (1) {
+                let checkElement = document.querySelector(`#check_${i}`);
+                if (checkElement == null)
+                    break;
+
+                checkElement.checked = checked;
+                i++;
+            }
+
+            setToInputElement();
+        }
+    </script>
+}

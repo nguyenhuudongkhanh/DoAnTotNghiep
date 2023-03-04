@@ -1,0 +1,33 @@
+﻿@model ExportMetadata
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header pb-1">
+            <h5 class="card-title">@ViewData["PageName"]</h5>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <p class="card-text">
+                    Hỗ trợ xuất tập tin với định dạng XLSX
+                    <code>.xlsx</code>
+                </p>
+                <form asp-action="Export" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label asp-for="TypeOptions">Loại tập tin</label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <input asp-for="TypeOptions" value="XLSX" class="form-control" readonly />
+                            <span asp-validation-for="TypeOptions" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn btn-primary me-1 mb-1">Thực hiện</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

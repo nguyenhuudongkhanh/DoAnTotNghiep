@@ -1,0 +1,70 @@
+﻿@model IEnumerable<ThesisOutput>
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-header">
+            Xem theo:
+            <a asp-action="GetThesesToAssignCLect" class="btn btn-sm btn-info mb-1 me-1">Đang chờ phân công</a>
+            <a asp-action="GetAssignedCLectTheses" class="btn btn-sm btn-success mb-1 me-1">Đã phân công</a>
+        </div>
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("FacultyStaffLayout_PagedSearch", new { action = "GetPublishedList", enableSearchBy = true })
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 10%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 12%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 28%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">GV ra đề</a>
+                                </th>
+                                <th data-sortable="" style="width: 12%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Year)</a>
+                                </th>
+                                <th data-sortable="" style="width: 8%">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Semester)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (ThesisOutput thesis in (IEnumerable<ThesisOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@thesis.Id</td>
+                                    <td>@thesis.Name</td>
+                                    <td>@thesis.Lecturer.FullName</td>
+                                    <td>@thesis.Year</td>
+                                    <td>@thesis.Semester</td>
+                                    <td>
+                                        <a asp-action="LoadAssignCLectView" asp-route-thesisId="@thesis.Id" class="btn btn-success btn-sm">
+                                            <i class="fas fa-trash"></i>Phân công</a>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("FacultyStaffLayout_Paged", new { action = "GetPublishedList", enableSearchBy = true })
+            </div>
+        </div>
+    </div>
+
+</section>

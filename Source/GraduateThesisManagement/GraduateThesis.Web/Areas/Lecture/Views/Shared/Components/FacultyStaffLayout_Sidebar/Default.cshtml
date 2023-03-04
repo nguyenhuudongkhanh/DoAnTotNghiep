@@ -1,0 +1,305 @@
+﻿@{
+    List<AppPage> appPages = Model;
+}
+
+<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between">
+                <div class="logo">
+                    <a href="index.html"><img src="~/logo/logo-hufi-new-v6.png" alt="Logo" srcset="" style="width: 216px; height:83px;"></a>
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item active ">
+                    <a asp-action="Index" asp-controller="FacultyStaffDashboard" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Các danh mục</span>
+                    </a>
+                    <ul class="submenu ">
+                        @if (appPages.Any(p => p.ControllerName == "TopicManager" && p.ActionName == "Index"))
+                        {
+                            <li class="submenu-item ">
+                                <a asp-action="Index" asp-controller="TopicManager">Chủ đề khóa luận</a>
+                            </li>
+                        }
+
+                        @if (appPages.Any(p => p.ControllerName == "TrainingLevelManager" && p.ActionName == "Index"))
+                        {
+                            <li class="submenu-item ">
+                                <a asp-action="Index" asp-controller="TrainingLevelManager">Bậc đào tạo</a>
+                            </li>
+                        }
+
+                        @if (appPages.Any(p => p.ControllerName == "TrainingFormManager" && p.ActionName == "Index"))
+                        {
+                            <li class="submenu-item ">
+                                <a asp-action="Index" asp-controller="TrainingFormManager">Hình thức đào tạo</a>
+                            </li>
+                        }
+
+                        @if (appPages.Any(p => p.ControllerName == "FacultyManager" && p.ActionName == "Index"))
+                        {
+                            <li class="submenu-item ">
+                                <a asp-action="Index" asp-controller="FacultyManager">Khoa</a>
+                            </li>
+                        }
+
+                        @if (appPages.Any(p => p.ControllerName == "SpecializationManager" && p.ActionName == "Index"))
+                        {
+                            <li class="submenu-item ">
+                                <a asp-action="Index" asp-controller="SpecializationManager">Chuyên ngành</a>
+                            </li>
+                        }
+
+                        @if (appPages.Any(p => p.ControllerName == "StudentClassManager" && p.ActionName == "Index"))
+                        {
+                            <li class="submenu-item ">
+                                <a asp-action="Index" asp-controller="StudentClassManager">Lớp</a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+
+                @if (appPages.Any(p => p.ControllerName == "FacultyStaffManager"))
+                {
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Nhân viên khoa</span>
+                        </a>
+                        <ul class="submenu ">
+                            @if (appPages.Any(p => p.ControllerName == "FacultyStaffManager" && p.ActionName == "Index"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Index" asp-controller="FacultyStaffManager">Danh sách</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "FacultyStaffManager" && p.ActionName == "Import"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Import" asp-controller="FacultyStaffManager">Nhập</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "FacultyStaffManager" && p.ActionName == "Export"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Export" asp-controller="FacultyStaffManager">Xuất</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "FacultyStaffManager" && p.ActionName == "Trash"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Trash" asp-controller="FacultyStaffManager">Thùng rác</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (appPages.Any(p => p.ControllerName == "StudentManager"))
+                {
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Sinh viên</span>
+                        </a>
+                        <ul class="submenu ">
+                            @if (appPages.Any(p => p.ControllerName == "StudentManager" && p.ActionName == "Index"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Index" asp-controller="StudentManager">Danh sách</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "StudentManager" && p.ActionName == "GetUnRegdStudents"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="GetUnRegdStudents" asp-controller="StudentManager">Chưa đăng ký đề tài</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "StudentManager" && p.ActionName == "GetRegdStudents"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="GetRegdStudents" asp-controller="StudentManager">Đã đăng ký đề tài</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "StudentManager" && p.ActionName == "Import"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Import" asp-controller="StudentManager">Nhập</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "StudentManager" && p.ActionName == "Export"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Export" asp-controller="StudentManager">Xuất</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "StudentManager" && p.ActionName == "Trash"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Trash" asp-controller="StudentManager">Thùng rác</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (appPages.Any(p => p.ControllerName == "CouncilManager" || p.ControllerName == "CommitteeManager"))
+                {
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Hội đồng & tiểu ban</span>
+                        </a>
+                        <ul class="submenu ">
+                            @if (appPages.Any(p => p.ControllerName == "CouncilManager" && p.ActionName == "Index"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Index" asp-controller="CouncilManager">Danh sách hội đồng</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "CommitteeManager" && p.ActionName == "Index"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Index" asp-controller="CommitteeManager">Danh sách tiểu ban</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "CommitteeManager" && p.ActionName == "GetCmtesOfLecturer"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="GetCmtesOfLecturer" asp-controller="CommitteeManager">Tiểu ban của tôi</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "CouncilManager" && p.ActionName == "Export"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Export" asp-controller="CouncilManager">Xuất</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "CouncilManager" && p.ActionName == "Trash"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Trash" asp-controller="CouncilManager">Thùng rác</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (appPages.Any(p => p.ControllerName == "ThesisManager"))
+                {
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Đề tài khóa luận</span>
+                        </a>
+                        <ul class="submenu ">
+                            @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "Index"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Index" asp-controller="ThesisManager">Danh sách</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "GetThesesOfLecturer"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="GetThesesOfLecturer" asp-controller="ThesisManager">Đề tài của tôi</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "GetThesesToAssignSupv"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="GetThesesToAssignSupv" asp-controller="ThesisManager">Phân công GVHD</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "GetThesesToAssignCLect"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="GetThesesToAssignCLect" asp-controller="ThesisManager">Phân công GVPB</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "ExportThesesInpr"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="ExportThesesInpr" asp-controller="ThesisManager">Xuất (đang TH)</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "Trash"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="" asp-controller="">Thùng rác</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (appPages.Any(p => p.ControllerName == "ThesisGroupManager"))
+                {
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
+                            <span>Nhóm sinh viên thực hiện đề tài</span>
+                        </a>
+                        <ul class="submenu ">
+                            @if (appPages.Any(p => p.ControllerName == "ThesisGroupManager" && p.ActionName == "Index"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Index" asp-controller="ThesisGroupManager">Danh sách</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "ThesisGroupManager" && p.ActionName == "Export"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Export" asp-controller="ThesisGroupManager">Xuất</a>
+                                </li>
+                            }
+
+                            @if (appPages.Any(p => p.ControllerName == "ThesisGroupManager" && p.ActionName == "Trash"))
+                            {
+                                <li class="submenu-item ">
+                                    <a asp-action="Trash" asp-controller="ThesisGroupManager">Thùng rác</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+            </ul>
+        </div>
+        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+    </div>
+</div>

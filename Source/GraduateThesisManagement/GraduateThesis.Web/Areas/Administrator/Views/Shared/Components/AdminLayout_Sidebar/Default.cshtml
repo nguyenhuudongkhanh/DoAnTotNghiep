@@ -1,0 +1,118 @@
+﻿<div id="sidebar" class="active">
+    <div class="sidebar-wrapper active">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between">
+                <div class="logo">
+                    <a href="index.html"><img src="~/logo/logo-hufi-new-v6.png" alt="Logo" srcset="" style="width: 216px; height:83px;"></a>
+                </div>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item active ">
+                    <a asp-action="Index" asp-controller="AdminDashboard" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Hệ thống</span>
+                    </a>
+                    <ul class="submenu has-sub">
+                        <li class="submenu-item ">
+                            <a asp-action="ExecQuery" asp-controller="SystemManager">Chạy truy vấn</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="Command" asp-controller="SystemManager">Chạy lệnh command</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="Database" asp-controller="SystemManager">Cơ sở dữ liệu</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="MemoryMonitor" asp-controller="SystemManager">RAM</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="CpuMonitor" asp-controller="SystemManager">CPU</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="CpuMonitor" asp-controller="SystemManager">Tập tin</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Sao lưu và phục hồi</span>
+                    </a>
+                    <ul class="submenu has-sub">
+                        <li class="submenu-item ">
+                            <a asp-action="LoadBackupDbView" asp-controller="SystemManager">Sao lưu database</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="Grant" asp-controller="AppRoleManager">Sao lưu tập tin</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="GetDbBackupHistory" asp-controller="SystemManager">Phục hồi database</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="Grant" asp-controller="AppRoleManager">Phục hồi tập tin</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Người dùng</span>
+                    </a>
+                    <ul class="submenu has-sub">
+                        <li class="submenu-item ">
+                            <a asp-action="GetFacultyStaffs" asp-controller="UserManager">Nhân viên khoa</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="GetFacultyStaffs" asp-controller="UserManager">Sinh viên</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Nhóm quyền & Chức năng</span>
+                    </a>
+                    <ul class="submenu has-sub">
+                        <li class="submenu-item ">
+                            <a asp-action="Index" asp-controller="AppRoleManager">Danh sách quyền</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a asp-action="Index" asp-controller="AppPageManager">Danh sách trang</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Dịch vụ bên thứ ba</span>
+                    </a>
+                    <ul class="submenu has-sub">
+                        <li class="submenu-item ">
+                            <a asp-action="Index" asp-controller="AppRoleManager">Google Api</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+    </div>
+</div>

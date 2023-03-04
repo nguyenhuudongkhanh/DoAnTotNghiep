@@ -1,0 +1,70 @@
+﻿@model IEnumerable<StudentOutput>
+
+@await Component.InvokeAsync("FacultyStaffLayout_Toolbar")
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="section">
+    <div class="card">
+        <div class="card-body">
+            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                @await Component.InvokeAsync("FacultyStaffLayout_PagedSearch", new { enableSearchBy = true })
+                <div class="dataTable-container">
+                    <table class="table table-striped dataTable-table" id="table1">
+                        <thead>
+                            <tr>
+                                <th data-sortable="" style="width: 8%;">
+                                    <a href="#" class="dataTable-sorter">STT</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Id)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.FullName)</a>
+                                </th>
+                                <th data-sortable="" style="width: 15%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.StudentClass.Name)</a>
+                                </th>
+                                <th data-sortable="" style="width: 22%;">
+                                    <a href="#" class="dataTable-sorter">@Html.DisplayNameFor(model => model.Email)</a>
+                                </th>
+                                <th data-sortable="" style="width: 20%;">
+                                    <a href="#" class="dataTable-sorter">Công cụ</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (StudentOutput student in (IEnumerable<StudentOutput>)ViewData["PagedList"]!)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@student.Id</td>
+                                    <td>@student.FullName</td>
+                                    <td>@student.StudentClass.Name</td>
+                                    <td>@student.Email</td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@student.Id">
+                                            <i class="fas fa-folder"></i> Chi tiết
+                                        </a>
+                                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@student.Id">
+                                            <i class="fas fa-folder"></i> Sửa
+                                        </a>
+                                        <button type="submit" form="delete_@count" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Xóa</button>
+                                        <form asp-action="BatchDelete" asp-route-id="@student.Id" id="delete_@count" method="post">
+                                        </form>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @await Component.InvokeAsync("FacultyStaffLayout_Paged", new { enableSearchBy = true })
+            </div>
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,76 @@
+﻿@model AppPageOutput
+
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="col-md-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewData["PageName"]: "@Model.PageName"</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form form-horizontal">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label asp-for="Id"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Id" class="form-control" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="PageName"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="PageName" class="form-control" placeholder="Nhập tên trang" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="ControllerName"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="ControllerName" class="form-control" placeholder="Nhập tên bộ điều khiển" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="ActionName"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="ActionName" class="form-control" placeholder="" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Area"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Area" class="form-control" placeholder="Nhập vào tên khu vực" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="Path"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="Path" class="form-control" placeholder="Nhập vào đường dẫn" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="CreatedAt"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="CreatedAt" class="form-control" disabled />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="UpdatedAt"></label>
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <input asp-for="UpdatedAt" class="form-control" disabled />
+                                    </div>
+
+                                    <div class="col-sm-12 d-flex justify-content-end">
+                                        <a asp-action="Index" class="btn btn-light-secondary me-1 mb-1">Quay về danh sách</a>
+                                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-1 mb-1">Chỉnh sửa</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

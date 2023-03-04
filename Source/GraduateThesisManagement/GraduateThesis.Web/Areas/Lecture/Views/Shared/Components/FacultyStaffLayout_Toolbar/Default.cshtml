@@ -1,0 +1,29 @@
+﻿<section id="basic-dropdown">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    @if((bool)ViewData["ShowCreateButton"]!){
+                        <a asp-action="Create" class="btn btn-success" type="button">Thêm mới</a>
+                    }
+                    
+                    @if((bool)ViewData["ShowImportButton"]!){
+                        <a asp-action="Import" class="btn btn-primary" type="button">Nhập</a>
+                    }
+                    
+                    @if((bool)ViewData["ShowExportButton"]!){
+                        <a asp-action="Export" class="btn btn-info" type="button">Xuất</a>
+                    }
+
+                    @if((bool)ViewData["ShowPrintButton"]!){
+                        <a asp-action="Print" class="btn btn-secondary" type="button">In</a>
+                    }
+                    
+                    @if((bool)ViewData["ShowTrashButton"]!){
+                        <a asp-action="GetTrash" class="btn btn-danger" type="button">Thùng rác</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

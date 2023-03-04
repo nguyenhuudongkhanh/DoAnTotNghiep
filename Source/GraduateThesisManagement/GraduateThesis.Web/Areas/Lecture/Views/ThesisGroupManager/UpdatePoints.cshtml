@@ -1,0 +1,101 @@
+﻿@model GroupPointInput
+@{
+    ThesisOutput thesis = (ViewData["Thesis"] as ThesisOutput)!;
+}
+
+<section id="basic-horizontal-layouts">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">@ViewData["PageName"]: @*"@Model.Name"*@</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <form class="form form-horizontal" asp-action="UpdatePoints" asp-route-groupId="@Model.GroupId">
+                    <input type="hidden" asp-for="ThesisId" />
+                    <input type="hidden" asp-for="GroupId" />
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Tên đồ án</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <input class="form-control" value="@thesis.Name" disabled />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                    <div class="dataTable-container">
+                                        <table class="table table-striped dataTable-table" id="table1">
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="" style="width: 10%;">
+                                                        <a href="#" class="dataTable-sorter">STT</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 30%;">
+                                                        <a href="#" class="dataTable-sorter">Sinh viên</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%;">
+                                                        <a href="#" class="dataTable-sorter">Điểm HD</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%;">
+                                                        <a href="#" class="dataTable-sorter">Điểm PB</a>
+                                                    </th>
+                                                    <th data-sortable="" style="width: 20%;">
+                                                        <a href="#" class="dataTable-sorter">Điểm HĐ</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int count = 0;
+                                                }
+                                                @foreach (StudentGroupDtOutput studentGroupDt in Model.StudentPoints)
+                                                {
+                                                    <tr>
+                                                        <td>@count</td>
+                                                        <td>
+                                                            <span class="badge bg-light-primary">@studentGroupDt.StudentId</span>
+                                                            <span class="badge bg-light-primary">@studentGroupDt.FullName</span>
+                                                            <span class="badge bg-light-primary">@studentGroupDt.Email</span>
+                                                            <input type="hidden" asp-for="StudentPoints[count].StudentId" />
+                                                        </td>
+                                                        <td>
+                                                            <input asp-for="StudentPoints[count].SupvPoint" />
+                                                            <span asp-validation-for="StudentPoints[count].SupvPoint" class="text-danger"></span>
+                                                        </td>
+                                                        <td>
+                                                            <input asp-for="StudentPoints[count].CtrArgPoint" />
+                                                            <span asp-validation-for="StudentPoints[count].CtrArgPoint" class="text-danger"></span>
+                                                        </td>
+                                                        <td>
+                                                            <input asp-for="StudentPoints[count].CmtePoint" />
+                                                            <span asp-validation-for="StudentPoints[count].CmtePoint" class="text-danger"></span>
+                                                        </td>
+                                                    </tr>
+                                                    count++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary me-1 mb-1">Hoàn tất</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

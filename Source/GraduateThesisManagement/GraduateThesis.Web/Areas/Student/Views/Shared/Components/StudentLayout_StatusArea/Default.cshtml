@@ -1,0 +1,58 @@
+﻿
+@{
+
+#nullable disable
+
+    string cssClass = null;
+    string status = null;
+    string message = null;
+
+    if(ViewData["Status"] != null){
+        status = ViewData["Status"].ToString();
+        if (status == "Success")
+        {
+            cssClass = "alert-success";
+        }
+        else if(status == "InvalidData" && status == "NotFound" && status == "AlreadyExits")
+        {
+            cssClass = "alert-warning";
+        }
+        else 
+        {
+            cssClass = "alert-danger";
+        }
+
+        message = ViewData["Message"]!.ToString()!;
+    }
+
+    if(TempData["Status"] != null){
+        status = TempData["Status"].ToString();
+        if (status == "Success")
+        {
+            cssClass = "alert-success";
+        }
+        else if (status == "InvalidData" && status == "NotFound" && status == "AlreadyExits")
+        {
+            cssClass = "alert-warning";
+        }
+        else
+        {
+            cssClass = "alert-danger";
+        }
+
+        message = TempData["Message"].ToString();
+    }
+
+    if(string.IsNullOrEmpty(message)){
+        message = "Nội dung thông báo chưa được thiết lập!";
+    }
+}
+
+@if(status != null){
+    <section class="section">
+        <div class="alert @cssClass alert-dismissible show fade">
+            @message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </section>
+}

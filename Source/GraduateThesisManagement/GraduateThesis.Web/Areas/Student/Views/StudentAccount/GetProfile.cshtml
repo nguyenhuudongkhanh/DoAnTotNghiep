@@ -1,0 +1,119 @@
+﻿@model StudentOutput
+
+@await Component.InvokeAsync("StudentLayout_StatusArea")
+
+<div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+    <nav class="nav nav-borders">
+        <a class="nav-link active ms-0" href="#" target="__blank">Thông tin cá nhân</a>
+        <a class="nav-link" href="#" target="__blank">Bảo mật</a>
+        <a class="nav-link" href="#" target="__blank">Thông báo</a>
+    </nav>
+    <hr class="mt-0 mb-4">
+    <form id="defaultAvatar" asp-action="SetDefaultAvatar" method="post"></form>
+    <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="StudentClassId" value="@Model.StudentClass.Id" />
+        <input type="hidden" asp-for="Surname" />
+        <input type="hidden" asp-for="Name" />
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Ảnh đại diện</div>
+                    <div class="card-body text-center">
+                        <input type="file" name="formFile" id="formFile" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" style="display: none" onchange="previewAvatar()" />
+                        <img class="img-account-profile rounded-circle mb-2" id="avatar" src="~/avatar/@Model.Avatar" alt="" onclick="openFileDialog();">
+                        <div class="small font-italic text-muted mb-4">Ảnh JPG hoặc PNG có dung lượng tối đa 5MB</div>
+                        <button class="btn btn-primary" form="defaultAvatar">Ảnh đại diện mặc định</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Thông tin cá nhân</div>
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Id"></label>
+                            <input class="form-control" asp-for="Id" readonly />
+                        </div>
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="small mb-1" asp-for="FullName"></label>
+                                <input class="form-control" asp-for="FullName" readonly />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small mb-1" asp-for="StudentClass.Name"></label>
+                                <input class="form-control" asp-for="StudentClass.Name" readonly />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Email"></label>
+                            <input class="form-control" asp-for="Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Phone"></label>
+                            <input class="form-control" asp-for="Phone" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Address"></label>
+                            <input class="form-control" asp-for="Address" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Birthday"></label>
+                            <input class="form-control" asp-for="Birthday" />
+                            <span asp-validation-for="Birthday" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Gender"></label>
+                            <select class="form-control" asp-for="Gender">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+                        
+                        <button class="btn btn-primary" type="submit">Cập nhật</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Styles {
+    <link href="~/css/profiles.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function previewAvatar() {
+          let preview = document.querySelector('#avatar');
+          let file    = document.querySelector('#formFile').files[0];
+          let reader  = new FileReader();
+
+          reader.onloadend = function () {
+            preview.src = reader.result;
+          }
+
+          if (file) {
+            reader.readAsDataURL(file);
+          } else {
+            preview.src = "";
+          }
+        }
+
+        function openFileDialog(){
+            document.querySelector('#formFile').click();
+        }
+    </script>
+
+}

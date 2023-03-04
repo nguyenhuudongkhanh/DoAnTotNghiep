@@ -1,0 +1,3 @@
+﻿CREATE USER [HUFI_graduate-thesis]
+  WITHOUT LOGIN
+GO

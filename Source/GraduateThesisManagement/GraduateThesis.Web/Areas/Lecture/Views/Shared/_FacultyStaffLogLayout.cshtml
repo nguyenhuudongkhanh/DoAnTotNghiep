@@ -1,0 +1,38 @@
+﻿<html>
+<head>
+    @await Component.InvokeAsync("FacultyStaffLayout_HeadElement")
+    <link href="~/student-area/student-log.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/fontawesome-free-6.2.1-web/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <section class="vh-100">
+        @RenderBody()
+        <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+            <!-- Copyright -->
+            <div class="text-white mb-3 mb-md-0">
+                Bản quyền © 2022 - @DateTime.Now.ToString("MM/yyyy"). Giữ toàn quyền.
+            </div>
+            <!-- Copyright -->
+            <!-- Right -->
+            <div>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="#!" class="text-white">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </div>
+    </section>
+</body>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@RenderSection("Scripts")
+</html>

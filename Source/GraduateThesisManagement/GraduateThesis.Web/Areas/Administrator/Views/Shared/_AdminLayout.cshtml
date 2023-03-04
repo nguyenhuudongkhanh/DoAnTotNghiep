@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mazer Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/mazer-main/css/bootstrap.css">
+    <link rel="stylesheet" href="~/mazer-main/vendors/iconly/bold.css">
+    <link rel="stylesheet" href="~/mazer-main/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="~/mazer-main/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/mazer-main/css/app.css">
+    <link rel="stylesheet" href="~/mazer-main/vendors/simple-datatables/style.css">
+    <link rel="shortcut icon" href="~/mazer-main/images/favicon.svg" type="image/x-icon">
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+    <div id="app">
+        @await Component.InvokeAsync("AdminLayout_Sidebar")
+        <div id="main">
+            @await Component.InvokeAsync("AdminLayout_PageHeader")
+            <div class="page-content">
+                @RenderBody()
+            </div>
+
+            @await Component.InvokeAsync("AdminLayout_Footer")
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/mazer-main/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="~/mazer-main/js/bootstrap.bundle.min.js"></script>
+    <script src="~/mazer-main/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

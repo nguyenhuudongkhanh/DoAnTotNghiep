@@ -1,0 +1,84 @@
+﻿@{
+    List<ThesisRevisionOutput> thesisRevisions = Model;
+}
+
+@await Component.InvokeAsync("FacultyStaffLayout_StatusArea")
+
+<section class="list-group-navigation">
+    <div class="card">
+        @if (thesisRevisions.Count == 0)
+        {
+            <div class="card-body text-center">
+                <p class="text-danger">Đề tài này chưa có lịch sử cập nhật tiến độ</p>
+            </div>
+        }
+        else
+        {
+            <div class="card-header">
+                <h4 class="card-title">@ViewData["PageName"]: "@thesisRevisions[0].Thesis.Name"</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-4">
+                            <div class="list-group" role="tablist">
+                                @{
+                                    int count = thesisRevisions.Count;
+                                }
+                                @foreach (ThesisRevisionOutput thesisRevision in thesisRevisions)
+                                {
+                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="list_@count" data-bs-toggle="list" href="#list-@count" role="tab" aria-selected="false">
+                                        <span>@thesisRevision.Title</span>
+                                        <span class="badge bg-info badge-pill badge-round ml-1">@count</span>
+                                    </a>
+                                    count--;
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-8 mt-1">
+                            <div class="tab-content text-justify" id="nav-tabContent">
+                                @{
+                                    count = thesisRevisions.Count;
+                                }
+                                @foreach (ThesisRevisionOutput thesisRevision in thesisRevisions)
+                                {
+                                    <div class="tab-pane show" id="list-@count" role="tabpanel" aria-labelledby="list-@count">
+                                        <div class="create-at">
+                                            <p><span class="fw-bold">Ngày tạo</span>: @thesisRevision.CreatedAt</p>
+                                        </div>
+                                        <div class="summary mt-4">
+                                            <p class="fw-bold">Tóm lược sửa đổi:</p>
+                                            @(new HtmlString(thesisRevision.Summary))
+                                        </div>
+                                        <div class="file mt-4">
+                                            <p>DOC: <a href="@thesisRevision.DocumentFile">@thesisRevision.DocumentFile</a></p>
+                                            <p>PPT: <a href="@thesisRevision.PresentationFile">@thesisRevision.PresentationFile</a></p>
+                                            <p>Source Code: <a href="@thesisRevision.SourceCode">@thesisRevision.SourceCode</a></p>
+                                        </div>
+                                        @if (thesisRevision.Reviewed)
+                                        {
+                                            <div class="border border-primary p-2">
+                                                <div class="lecturer-comment mt-1">
+                                                    <p class="fw-bold">Nhận xét của giảng viên hướng dẫn:</p>
+                                                    @(new HtmlString(thesisRevision.LecturerComment))
+                                                </div>
+                                                <div class="point mt-4">
+                                                    <p><span class="fw-bold">Điểm quá trình</span>: @thesisRevision.Point</p>
+                                                </div>
+                                            </div>
+                                        }else{
+                                            <div class="review mt-4">
+                                                <a asp-action="ReviewRevision" asp-route-revisionId="@thesisRevision.Id" class="btn btn-success">Thực hiện đánh giá</a>
+                                            </div>
+                                        }
+                                    </div>
+                                    count--;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

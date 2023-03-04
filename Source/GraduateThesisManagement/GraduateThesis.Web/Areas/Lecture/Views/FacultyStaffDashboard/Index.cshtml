@@ -1,0 +1,217 @@
+﻿@{
+    FacultyStaffOutput facultyStaff = (ViewData["AccountModel"] as FacultyStaffOutput)!;
+    FStaffAreaStatsOutput fStaffAreaStats = (ViewData["FStaffAreaStats"] as FStaffAreaStatsOutput)!;
+    List<AppPage> appPages = (ViewData["AppPages"] as List<AppPage>)!;
+}
+
+<section class="row">
+    <div class="col-12 col-lg-9">
+        <div class="row">
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon purple">
+                                    <i class="iconly-boldBookmark"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Đề tài</h6>
+                                <h6 class="font-extrabold mb-0">@fStaffAreaStats.ThesisNumber</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon blue">
+                                    <i class="iconly-boldAdd-User"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Nhóm đề tài</h6>
+                                <h6 class="font-extrabold mb-0">@fStaffAreaStats.ThesisGroupNumber</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon green">
+                                    <i class="iconly-boldProfile"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">NV Khoa</h6>
+                                <h6 class="font-extrabold mb-0">@fStaffAreaStats.FacultyStaffNumber</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon red">
+                                    <i class="iconly-boldProfile"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Sinh viên</h6>
+                                <h6 class="font-extrabold mb-0">@fStaffAreaStats.StudentNumber</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Truy cập nhanh</h4>
+                    </div>
+                    <div class="card-body">
+                        @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "Create"))
+                        {
+                            <a asp-action="Create" asp-controller="ThesisManager" class="btn btn-sm btn-success me-1 mb-1">Tạo mới đề tài</a>
+                        }
+
+                        @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "Create"))
+                        {
+                            <a asp-action="Create" asp-controller="ThesisManager" class="btn btn-sm btn-success me-1 mb-1">Đề tài của tôi</a>
+                        }
+
+                        @if (appPages.Any(p => p.ControllerName == "ThesisManager" && p.ActionName == "GetRejectedList"))
+                        {
+                            <a asp-action="Create" asp-controller="ThesisManager" class="btn btn-sm btn-success me-1 mb-1">Đề tài bị từ chối xét duyệt</a>
+                        }
+
+                        @if (appPages.Any(p => p.ControllerName == "AdminDashboard" && p.ActionName == "Index"))
+                        {
+                            <a asp-action="Index" asp-controller="AdminDashboard" class="btn btn-sm btn-success me-1 mb-1">Quản trị hệ thống</a>
+                        }
+                        <div id="chart-profile-visit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Hoạt động mới nhất</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-lg">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="col-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar avatar-md">
+                                                    <img src="~/mazer-main/images/faces/5.jpg">
+                                                </div>
+                                                <p class="font-bold ms-3 mb-0">Anonymous</p>
+                                            </div>
+                                        </td>
+                                        <td class="col-auto">
+                                            <p class=" mb-0">Tính năng này chưa có sẵn!</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar avatar-md">
+                                                    <img src="~/mazer-main/images/faces/2.jpg">
+                                                </div>
+                                                <p class="font-bold ms-3 mb-0">Anonymous</p>
+                                            </div>
+                                        </td>
+                                        <td class="col-auto">
+                                            <p class=" mb-0">
+                                                Tính năng này chưa có sẵn!
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-3">
+        <div class="card">
+            <div class="card-body py-4 px-2">
+                <div class="d-flex align-items-center">
+                    <div class="avatar avatar-xl">
+                        <img src="~/avatar/@facultyStaff.Avatar" alt="Ảnh đại diện">
+                    </div>
+                    <div class="ms-3 name">
+                        <h6 class="font-bold">@facultyStaff.FullName</h6>
+                        <h6 class="text-muted mb-0">@facultyStaff.Id</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4>Đang hoạt động</h4>
+            </div>
+            <div class="card-content pb-4">
+                <div class="recent-message d-flex px-4 py-3">
+                    <div class="avatar avatar-lg">
+                        <img src="~/mazer-main/images/faces/4.jpg">
+                    </div>
+                    <div class="name ms-4">
+                        <h5 class="mb-1">Anonymous</h5>
+                        <h6 class="text-muted mb-0">000000000</h6>
+                    </div>
+                </div>
+                <div class="recent-message d-flex px-4 py-3">
+                    <div class="avatar avatar-lg">
+                        <img src="~/mazer-main/images/faces/5.jpg">
+                    </div>
+                    <div class="name ms-4">
+                        <h5 class="mb-1">Anonymous</h5>
+                        <h6 class="text-muted mb-0">000000000</h6>
+                    </div>
+                </div>
+                <div class="recent-message d-flex px-4 py-3">
+                    <div class="avatar avatar-lg">
+                        <img src="~/mazer-main/images/faces/1.jpg">
+                    </div>
+                    <div class="name ms-4">
+                        <h5 class="mb-1">Anonymous</h5>
+                        <h6 class="text-muted mb-0">000000000</h6>
+                    </div>
+                </div>
+                <div class="px-4">
+                    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>
+                        Start
+                        Conversation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
